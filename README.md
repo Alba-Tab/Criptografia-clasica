@@ -2,16 +2,14 @@
 
 Este proyecto implementa algoritmos de cifrado y descifrado clásicos con librerías modulares en PHP, interfaz visual, pruebas unitarias y documentación técnica. Su estructura permite el trabajo **en paralelo por cuatro personas**, cada una encargada de un módulo.
 
----
-
-## 📁 Estructura del Proyecto
+```plaintext
 CRIPTOGRAFIA-CLASICA/
 │
-├── assets/ # Estilos CSS y scripts JS
-├── config.php # Configuración general
-├── controllers/ # Lógica central del controlador
+├── assets/                       # Estilos CSS y scripts JS
+├── config.php                    # Configuración general
+├── controllers/                  # Lógica central del controlador
 │   └── procesar.php
-├── libs/ # Librerías de cifrado
+├── libs/                         # Librerías de cifrado
 │   ├── desplazamiento/
 │   │   └── palabra_clave.php
 │   ├── s monogramica polialfabeto/
@@ -29,12 +27,11 @@ CRIPTOGRAFIA-CLASICA/
 │       ├── grupos.php
 │       ├── series.php
 │       └── zigzag.php
-├── test/ # Pruebas unitarias
-├── views/ # Interfaz visual (HTML/PHP)
-├── index.php # Punto de entrada de la aplicación
+├── test/                         # Pruebas unitarias
+├── views/                        # Interfaz visual (HTML/PHP)
+├── index.php                     # Punto de entrada de la aplicación
 └── README.md
-
----
+```
 
 ## 👥 Distribución de Trabajo por Persona
 
