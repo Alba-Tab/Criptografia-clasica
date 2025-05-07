@@ -12,7 +12,7 @@
                   ? 'border-blue-600 text-blue-600' 
                   : 'border-transparent text-gray-600 hover:border-blue-300 hover:text-blue-600';
     ?>
-        <a href="?tab=<?= $id ?>" class="tab-btn px-6 py-3 font-medium border-b-2 <?= $active ?>">
+        <a href="?tab=<?= $id ?>" class="tab-btn px-6 py-3 font-medium border-b-2 <?= $active ?>" data-tab="<?= $id ?>">
             <?= $label ?>
         </a>
         <?php endforeach ?>
