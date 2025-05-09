@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label class="block mt-4 mb-2">Proceso:</label>
         <div id="process" class="p-4 bg-gray-50 border rounded-md">
             <p class="italic text-gray-500">Aquí se mostrará el proceso…</p>
-        </div> -->
+        </div>  -->
     </div>
 </form>
 
