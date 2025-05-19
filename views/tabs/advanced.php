@@ -67,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <h2 class="text-2xl font-semibold mb-4 text-blue-600">Cifrados, Algoritmos Matriciales</h2>
 
+
 <?php if ($error): ?>
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
         <span class="block sm:inline"><?php echo htmlspecialchars($error); ?></span>
@@ -104,6 +105,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </form>
 
+
+<div id="ejemplo-uso" class="mt-6 p-4 border border-blue-300 bg-blue-50 rounded-md text-sm text-blue-800 hidden">
+    <strong>Ejemplo de uso:</strong>
+    <p id="ejemplo-texto" class="mt-1"></p>
+    <p id="ejemplo-clave" class="mt-1"></p>
+</div>
+
+
 <script>
 // Validar texto solo con letras A-Z
 function validarTexto(texto) {
@@ -115,6 +124,32 @@ document.getElementById('algoritmo').addEventListener('change', function () {
     const claveLabel = document.getElementById('clave-label');
     const textoInput = document.getElementById('texto');
     const resultOutput = document.getElementById('result');
+    const ejemploUso = document.getElementById('ejemplo-uso');
+    const ejemploTexto = document.getElementById('ejemplo-texto');
+    const ejemploClave = document.getElementById('ejemplo-clave');
+
+    const ejemplos = {
+        'hill': {
+            texto: 'HOLA',
+            clave: '3,3,2,5',
+        },
+        'monogramica': {
+            texto: 'HOLA',
+            clave: 'QWERTYUIOPASDFGHJKLZXCVBNM',
+        },
+        'playfair': {
+            texto: 'HOLA',
+            clave: 'MONARCA',
+        },
+        'polialfabetica': {
+            texto: 'HOLA',
+            clave: 'CLAVE',
+        },
+        'kasiski': {
+            texto: 'ATACATRESHORASATACATRESHORAS',
+            clave: '',
+        }
+    };
 
     const placeholders = {
         'hill': 'Para Hill: 4 números separados por coma (ej: 3,3,2,5)',
@@ -124,9 +159,10 @@ document.getElementById('algoritmo').addEventListener('change', function () {
         'kasiski': ''
     };
 
-    claveInput.placeholder = placeholders[this.value] || 'Clave';
+    const seleccionado = this.value;
+    claveInput.placeholder = placeholders[seleccionado] || 'Clave';
 
-    if (this.value === 'kasiski') {
+    if (seleccionado === 'kasiski') {
         claveInput.style.display = 'none';
         claveLabel.style.display = 'none';
     } else {
@@ -134,10 +170,26 @@ document.getElementById('algoritmo').addEventListener('change', function () {
         claveLabel.style.display = '';
     }
 
+    // Mostrar ejemplo de uso
+    if (ejemplos[seleccionado]) {
+        ejemploUso.classList.remove('hidden');
+        ejemploTexto.textContent = `Texto de ejemplo: ${ejemplos[seleccionado].texto}`;
+        if (ejemplos[seleccionado].clave) {
+            ejemploClave.textContent = `Clave de ejemplo: ${ejemplos[seleccionado].clave}`;
+        } else {
+            ejemploClave.textContent = '';
+        }
+    } else {
+        ejemploUso.classList.add('hidden');
+    }
+
     claveInput.value = '';
     textoInput.value = '';
     resultOutput.textContent = '';
 });
+
+
+
 document.getElementById('algoritmo').addEventListener('change', function () {
     const accionCifrar = document.querySelector('[data-action="cifrar"]');
     const accionDescifrar = document.querySelector('[data-action="descifrar"]');
@@ -157,6 +209,9 @@ document.querySelectorAll('[data-action]').forEach(button => {
         if (!validarTexto(texto)) {
             alert("Texto inválido. Solo letras A-Z, sin espacios ni símbolos.");
             return;
+        }
+        if (strlen($texto) > 150) {
+            throw new Exception("Texto demasiado largo. Máximo 500 caracteres.");
         }
 
         const form = document.getElementById('form-substitution');
