@@ -1,10 +1,11 @@
 <?php
 function kasiskiExamen($texto, $minLongitud = 3) {
+    // Eliminar caracteres no alfabéticos y convertir a mayúsculas
     $texto = strtoupper(preg_replace('/[^A-Z]/', '', $texto));
     $longitudTexto = strlen($texto);
     $repeticiones = [];
 
-    // Buscar repeticiones de secuencias de longitud mínima
+    // Buscar repeticiones de subcadenas de longitud mínima
     for ($i = 0; $i <= $longitudTexto - $minLongitud; $i++) {
         $subcadena = substr($texto, $i, $minLongitud);
 
@@ -16,7 +17,7 @@ function kasiskiExamen($texto, $minLongitud = 3) {
         }
     }
 
-    // Obtener factores de las distancias encontradas
+    // Calcular factores comunes de las distancias encontradas
     $factores = [];
     foreach ($repeticiones as $distancia) {
         for ($i = 2; $i <= $distancia; $i++) {
@@ -29,12 +30,33 @@ function kasiskiExamen($texto, $minLongitud = 3) {
         }
     }
 
-    // Ordenar factores por frecuencia
-    arsort($factores);
+    arsort($factores); // Ordenar por frecuencia descendente
 
-    return $factores; // [longitud_posible => frecuencia]
+    return [
+        'factores' => $factores,
+        'repeticiones' => $repeticiones,
+        'total_repeticiones' => count($repeticiones)
+    ];
 }
+
 function analisisKasiski($texto) {
-    // Lógica de análisis (aquí puedes usar tu algoritmo real)
-    return "Análisis Kasiski ejecutado. Texto: $texto\n(Salida simulada)";
+    $resultado = kasiskiExamen($texto);
+    $factores = $resultado['factores'];
+    $repeticiones = $resultado['repeticiones'];
+    $total = $resultado['total_repeticiones'];
+
+    if (empty($factores)) {
+        return "No se encontraron repeticiones suficientes para el análisis Kasiski.";
+    }
+
+    $salida = "🔍 Análisis Kasiski del texto\n";
+    $salida .= "----------------------------------\n";
+    $salida .= "Total de repeticiones encontradas: $total\n\n";
+    $salida .= "Factores más comunes (posibles longitudes de clave):\n";
+
+    foreach ($factores as $factor => $frecuencia) {
+        $salida .= "  - Longitud $factor: $frecuencia ocurrencia(s)\n";
+    }
+
+    return $salida;
 }

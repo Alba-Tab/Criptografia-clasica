@@ -138,7 +138,18 @@ document.getElementById('algoritmo').addEventListener('change', function () {
     textoInput.value = '';
     resultOutput.textContent = '';
 });
+document.getElementById('algoritmo').addEventListener('change', function () {
+    const accionCifrar = document.querySelector('[data-action="cifrar"]');
+    const accionDescifrar = document.querySelector('[data-action="descifrar"]');
 
+    if (this.value === 'kasiski') {
+        accionCifrar.textContent = 'Analizar';
+        accionDescifrar.style.display = 'none';
+    } else {
+        accionCifrar.textContent = 'Cifrar';
+        accionDescifrar.style.display = '';
+    }
+});
 document.querySelectorAll('[data-action]').forEach(button => {
     button.addEventListener('click', function () {
         const texto = document.getElementById('texto').value.toUpperCase();
