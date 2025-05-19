@@ -11,16 +11,17 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $algoritmo = $_POST['algoritmo'] ?? '';
-        $texto = strtoupper($_POST['texto'] ?? '');
+        $texto = strtoupper(preg_replace('/[^A-Z]/', '', $_POST['texto'] ?? ''));
         $clave = $_POST['clave'] ?? '';
         $accion = $_POST['accion'] ?? '';
 
-        if (!preg_match('/^[A-Z]+$/', $texto)) {
-            throw new Exception("Texto inválido. Solo se permiten letras A-Z, sin espacios ni símbolos.");
+        if (strlen($texto) > 500) {
+            throw new Exception("Texto demasiado largo. Máximo 500 caracteres.");
         }
 
         switch ($algoritmo) {
             case 'hill':
+                $clave = preg_replace('/[^0-9,]/', '', $clave); // Solo números y comas
                 $clave_array = array_map('intval', explode(',', $clave));
                 if (count($clave_array) !== 4) {
                     throw new Exception("Para Hill, ingresa 4 números separados por coma (ej: 3,3,2,5)");
@@ -35,12 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
 
             case 'playfair':
+                $clave = strtoupper(preg_replace('/[^A-Z]/', '', $clave));
                 $resultado = $accion === 'cifrar'
                     ? cifrarPlayfair($texto, $clave)
                     : descifrarPlayfair($texto, $clave);
                 break;
 
             case 'polialfabetica':
+                $clave = strtoupper(preg_replace('/[^A-Z]/', '', $clave));
                 $resultado = $accion === 'cifrar'
                     ? cifrarPolialfabetico($texto, $clave)
                     : descifrarPolialfabetico($texto, $clave);
@@ -89,6 +92,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="button" data-action="cifrar" class="px-4 py-2 bg-blue-600 text-white rounded-md">Cifrar</button>
             <button type="button" data-action="descifrar" class="px-4 py-2 bg-green-600 text-white rounded-md">Descifrar</button>
         </div>
+
+        <div class="mt-4 text-sm text-gray-600 italic" id="ejemplo-uso">
+            Selecciona un algoritmo para ver un ejemplo de uso.
+        </div>
     </div>
 
     <div>
@@ -97,77 +104,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </form>
 
-
-<div id="ejemplo-uso" class="mt-6 p-4 border border-blue-300 bg-blue-50 rounded-md text-sm text-blue-800 hidden">
-    <strong>Ejemplo de uso:</strong>
-    <p id="ejemplo-texto" class="mt-1"></p>
-    <p id="ejemplo-clave" class="mt-1"></p>
-</div>
-
-
 <script>
-// Validar texto solo con letras A-Z
-function validarTexto(texto) {
-    return /^[A-Z]+$/.test(texto);
-}
-
 document.getElementById('algoritmo').addEventListener('change', function () {
     const claveInput = document.getElementById('clave');
     const claveLabel = document.getElementById('clave-label');
     const textoInput = document.getElementById('texto');
     const resultOutput = document.getElementById('result');
     const ejemploUso = document.getElementById('ejemplo-uso');
-    const ejemploTexto = document.getElementById('ejemplo-texto');
-    const ejemploClave = document.getElementById('ejemplo-clave');
 
     const ejemplos = {
         'hill': {
-            texto: 'HOLA',
-            clave: '3,3,2,5',
+            placeholder: 'Para Hill: 4 números separados por coma (ej: 3,3,2,5)',
+            ejemplo: 'Texto: HOLA — Clave: 3,3,2,5'
         },
         'playfair': {
-            texto: 'HOLA',
-            clave: 'MONARCA',
+            placeholder: 'Para Playfair: palabra clave (ej: MONARCA)',
+            ejemplo: 'Texto: HOLA — Clave: MONARCA'
         },
         'polialfabetica': {
-            texto: 'HOLA',
-            clave: 'CLAVE',
+            placeholder: 'Para Polialfabético: palabra clave (ej: CLAVE)',
+            ejemplo: 'Texto: HOLA — Clave: CLAVE'
         },
         'kasiski': {
-            texto: 'ATACATRESHORASATACATRESHORAS',
-            clave: '',
+            placeholder: '',
+            ejemplo: 'Texto: Texto cifrado para analizar con Kasiski'
         }
     };
 
-    const placeholders = {
-        'hill': 'Para Hill: 4 números separados por coma (ej: 3,3,2,5)',
-        'playfair': 'Para Playfair: una palabra clave (ej: MONARCA)',
-        'polialfabetica': 'Para Polialfabético: palabra clave (ej: CLAVE)',
-        'kasiski': ''
-    };
-
     const seleccionado = this.value;
-    claveInput.placeholder = placeholders[seleccionado] || 'Clave';
+    const ejemplo = ejemplos[seleccionado];
+
+    claveInput.placeholder = ejemplo.placeholder || '';
+    ejemploUso.textContent = ejemplo.ejemplo;
 
     if (seleccionado === 'kasiski') {
         claveInput.style.display = 'none';
         claveLabel.style.display = 'none';
+        document.querySelector('[data-action="descifrar"]').style.display = 'none';
+        document.querySelector('[data-action="cifrar"]').textContent = 'Analizar';
     } else {
         claveInput.style.display = '';
         claveLabel.style.display = '';
-    }
-
-    // Mostrar ejemplo de uso
-    if (ejemplos[seleccionado]) {
-        ejemploUso.classList.remove('hidden');
-        ejemploTexto.textContent = `Texto de ejemplo: ${ejemplos[seleccionado].texto}`;
-        if (ejemplos[seleccionado].clave) {
-            ejemploClave.textContent = `Clave de ejemplo: ${ejemplos[seleccionado].clave}`;
-        } else {
-            ejemploClave.textContent = '';
-        }
-    } else {
-        ejemploUso.classList.add('hidden');
+        document.querySelector('[data-action="descifrar"]').style.display = '';
+        document.querySelector('[data-action="cifrar"]').textContent = 'Cifrar';
     }
 
     claveInput.value = '';
@@ -175,27 +154,23 @@ document.getElementById('algoritmo').addEventListener('change', function () {
     resultOutput.textContent = '';
 });
 
-
-document.getElementById('algoritmo').addEventListener('change', function () {
-    const accionCifrar = document.querySelector('[data-action="cifrar"]');
-    const accionDescifrar = document.querySelector('[data-action="descifrar"]');
-
-    if (this.value === 'kasiski') {
-        accionCifrar.textContent = 'Analizar';
-        accionDescifrar.style.display = 'none';
-    } else {
-        accionCifrar.textContent = 'Cifrar';
-        accionDescifrar.style.display = '';
-    }
-});
 document.querySelectorAll('[data-action]').forEach(button => {
     button.addEventListener('click', function () {
-        const texto = document.getElementById('texto').value.toUpperCase();
+        const algoritmo = document.getElementById('algoritmo').value;
 
-        if (!validarTexto(texto)) {
-            alert("Texto inválido. Solo letras A-Z, sin espacios ni símbolos.");
-            return;
+        // Limpiar texto
+        let texto = document.getElementById('texto').value;
+        texto = texto.replace(/[^A-Z]/gi, '').toUpperCase();
+        document.getElementById('texto').value = texto;
+
+        // Limpiar clave según algoritmo
+        let clave = document.getElementById('clave').value;
+        if (algoritmo === 'hill') {
+            clave = clave.replace(/[^0-9,]/g, '');
+        } else {
+            clave = clave.replace(/[^A-Z]/gi, '').toUpperCase();
         }
+        document.getElementById('clave').value = clave;
 
         const form = document.getElementById('form-substitution');
         const formData = new FormData(form);
@@ -209,6 +184,7 @@ document.querySelectorAll('[data-action]').forEach(button => {
         .then(html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
+
             document.getElementById('result').textContent = doc.getElementById('result').textContent;
 
             const errorDiv = doc.querySelector('[role="alert"]');
