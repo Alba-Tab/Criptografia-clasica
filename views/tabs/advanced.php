@@ -34,12 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     : descifrarHill($texto, $matriz);
                 break;
 
-            case 'monogramica':
-                $resultado = $accion === 'cifrar'
-                    ? cifrarMonogramico($texto, $clave)
-                    : descifrarMonogramico($texto, $clave);
-                break;
-
             case 'playfair':
                 $resultado = $accion === 'cifrar'
                     ? cifrarPlayfair($texto, $clave)
@@ -67,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <h2 class="text-2xl font-semibold mb-4 text-blue-600">Cifrados, Algoritmos Matriciales</h2>
 
-
 <?php if ($error): ?>
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
         <span class="block sm:inline"><?php echo htmlspecialchars($error); ?></span>
@@ -79,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="algoritmo" class="block mb-2">Seleccione el algoritmo:</label>
         <select name="algoritmo" id="algoritmo" class="w-full border rounded-md px-3 py-2" required>
             <option value="hill" <?php echo ($_POST['algoritmo'] ?? '') === 'hill' ? 'selected' : ''; ?>>Cifrado Hill</option>
-            <option value="monogramica" <?php echo ($_POST['algoritmo'] ?? '') === 'monogramica' ? 'selected' : ''; ?>>Cifrado Monogramático</option>
             <option value="playfair" <?php echo ($_POST['algoritmo'] ?? '') === 'playfair' ? 'selected' : ''; ?>>Cifrado Playfair</option>
             <option value="polialfabetica" <?php echo ($_POST['algoritmo'] ?? '') === 'polialfabetica' ? 'selected' : ''; ?>>Cifrado Polialfabético</option>
             <option value="kasiski" <?php echo ($_POST['algoritmo'] ?? '') === 'kasiski' ? 'selected' : ''; ?>>Análisis Kasiski</option>
@@ -133,10 +125,6 @@ document.getElementById('algoritmo').addEventListener('change', function () {
             texto: 'HOLA',
             clave: '3,3,2,5',
         },
-        'monogramica': {
-            texto: 'HOLA',
-            clave: 'QWERTYUIOPASDFGHJKLZXCVBNM',
-        },
         'playfair': {
             texto: 'HOLA',
             clave: 'MONARCA',
@@ -153,7 +141,6 @@ document.getElementById('algoritmo').addEventListener('change', function () {
 
     const placeholders = {
         'hill': 'Para Hill: 4 números separados por coma (ej: 3,3,2,5)',
-        'monogramica': 'Para Monogramático: 26 letras sin repetir',
         'playfair': 'Para Playfair: una palabra clave (ej: MONARCA)',
         'polialfabetica': 'Para Polialfabético: palabra clave (ej: CLAVE)',
         'kasiski': ''
@@ -189,7 +176,6 @@ document.getElementById('algoritmo').addEventListener('change', function () {
 });
 
 
-
 document.getElementById('algoritmo').addEventListener('change', function () {
     const accionCifrar = document.querySelector('[data-action="cifrar"]');
     const accionDescifrar = document.querySelector('[data-action="descifrar"]');
@@ -209,9 +195,6 @@ document.querySelectorAll('[data-action]').forEach(button => {
         if (!validarTexto(texto)) {
             alert("Texto inválido. Solo letras A-Z, sin espacios ni símbolos.");
             return;
-        }
-        if (strlen($texto) > 150) {
-            throw new Exception("Texto demasiado largo. Máximo 500 caracteres.");
         }
 
         const form = document.getElementById('form-substitution');
