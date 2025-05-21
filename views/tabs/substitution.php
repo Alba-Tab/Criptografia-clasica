@@ -13,7 +13,7 @@ require_once __DIR__ . '/../../controllers/procesar.php';
 </h2>
 
 
-<form method="POST" id="form-substitution" class="grid md:grid-cols-2 gap-8 ajax-form">
+<form method="POST" id="form-substitution" class="grid md:grid-cols-2 gap-8">
     <div>
         <label for="algoritmo" class="block mb-2">Seleccione el algoritmo:</label>
         <select name="algoritmo" id="algoritmo" class="w-full border rounded-md px-3 py-2" required>
@@ -36,11 +36,11 @@ require_once __DIR__ . '/../../controllers/procesar.php';
             placeholder="Clave según el algoritmo seleccionado">
 
         <div class="mt-4 space-x-2">
-            <button type="submit" name="accion" data-action="cifrar"
+            <button type="submit" name="accion" data-action="cifrar" value="cifrar"
                 class="px-4 py-2 bg-blue-600 text-white rounded-md">
                 Cifrar
             </button>
-            <button type="submit" name="accion" data-action="descifrar"
+            <button type="submit" name="accion" data-action="descifrar" value="descifrar"
                 class="px-4 py-2 bg-green-600 text-white rounded-md">
                 Descifrar
             </button>

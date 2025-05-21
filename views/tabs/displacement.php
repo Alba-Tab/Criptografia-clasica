@@ -28,11 +28,11 @@ require_once __DIR__ . '/../../controllers/procesar.php';
             class="w-full border rounded-md px-3 py-2">
          -->
         <div class="mt-4 space-x-2">
-            <button type="submit" name="accion" data-action="cifrar"
+            <button type="submit" name="accion" data-action="cifrar" value="cifrar"
                 class="px-4 py-2 bg-blue-600 text-white rounded-md">
                 Cifrar
             </button>
-            <button type="submit" name="accion" data-action="descifrar"
+            <button type="submit" name="accion" data-action="descifrar" value="descifrar"
                 class="px-4 py-2 bg-green-600 text-white rounded-md">
                 Descifrar
             </button>

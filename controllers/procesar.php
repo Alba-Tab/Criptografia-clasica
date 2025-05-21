@@ -26,7 +26,7 @@ $tab = $_GET['tab'] ?? 'displacement';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $algoritmo = $_POST['algoritmo'] ?? '';
-        $texto     = preg_replace('/[^A-Z]/', '', strtoupper($_POST['texto'] ?? ''));
+        $texto     = strtoupper(preg_replace('/[^A-Za-z]/', '', $_POST['texto'] ?? ''));
         $clave     = $_POST['clave'] ?? '';
         $accion    = $_POST['accion'] ?? '';
         switch ($tab) {
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             case 'displacement':
                 // 2. Cifrado por desplazamiento con palabra clave
-                $resultado = ($accion === 'encrypt')
+                $resultado = ($accion === 'cifrar')
                     ? cifrarDesplazamiento($texto, $clave)
                     : descifrarDesplazamiento($texto, $clave);
                 break;
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         break;
 
                     case 'playfair':
-                        $clave = strtoupper(preg_replace('/[^A-Z]/', '', $clave));
+                        $clave = strtoupper(preg_replace('/[^A-Za-z]/', '', $clave));
                         $resultado = $accion === 'cifrar'
                             ? cifrarPlayfair($texto, $clave)
                             : descifrarPlayfair($texto, $clave);
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     case 'polialfabetica':
                         // Cifrado polialfabético periódico
-                        $clave = strtoupper(preg_replace('/[^A-Z]/', '', $clave));
+                        $clave = strtoupper(preg_replace('/[^A-Za-z]/', '', $clave));
                         $resultado = $accion === 'cifrar'
                             ? cifrarPolialfabeticoPer($texto, $clave)
                             : descifrarPolialfabeticoPer($texto, $clave);
