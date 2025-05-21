@@ -45,7 +45,7 @@
     </div>
 
     <div>
-        <label class="block mb-2">Resultado:</label>
+        <p class="block mb-2 font-semibold">Resultado:</p>
         <pre id="result"
             class="p-4 bg-gray-50 border rounded-md min-h-[6rem]"><?php echo htmlspecialchars($resultado); ?></pre>
     </div>

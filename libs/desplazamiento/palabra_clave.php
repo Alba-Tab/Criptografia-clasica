@@ -74,6 +74,8 @@ function descifrarDesplazamiento($texto, $clave) {
     
     for ($i = 0; $i < strlen($clave); $i++) {
         if (ctype_alpha($clave[$i])) {
+            // Convertir la letra a un número (0-25)
+            // A=0, B=1, ..., Z=25
             $desplazamientos[] = ord($clave[$i]) - ord('A');
         }
     }

@@ -19,13 +19,13 @@ $tab = $_GET['tab'] ?? 'displacement';
 // Procesar el formulario al recibir POST según la pestaña
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        $algoritmo = $_POST['algoritmo'] ?? '';
+        $texto     = strtoupper(preg_replace('/[^A-Z]/', '', $_POST['texto'] ?? ''));
+        $clave     = $_POST['clave'] ?? '';
+        $accion    = $_POST['accion'] ?? '';
         switch ($tab) {
             case 'substitution':
                 // 1. Cifrados por sustitución
-                $algoritmo = $_POST['algoritmo'] ?? '';
-                $texto     = $_POST['texto'] ?? '';
-                $clave     = $_POST['clave'] ?? '';
-                $accion    = $_POST['accion'] ?? '';
 
                 switch ($algoritmo) {
                     case 'mono_afin':
@@ -58,20 +58,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             case 'displacement':
                 // 2. Cifrado por desplazamiento con palabra clave
-                $text   = $_POST['text'] ?? '';
-                $key    = $_POST['key'] ?? '';
-                $accion = $_POST['accion'] ?? '';
+
 
                 $resultado = ($accion === 'encrypt')
-                    ? cifrarDesplazamiento($text, $key)
-                    : descifrarDesplazamiento($text, $key);
+                    ? cifrarDesplazamiento($texto, $clave)
+                    : descifrarDesplazamiento($texto, $clave);
                 break;
 
             case 'advanced':
                 // 3. Algoritmos matriciales y de análisis avanzados
-                $algoritmo = $_POST['algoritmo'] ?? '';
-                $texto     = strtoupper(preg_replace('/[^A-Z]/', '', $_POST['texto'] ?? ''));
-                $clave     = $_POST['clave'] ?? '';
                 if (strlen($texto) > 500) {
                     throw new Exception("Texto demasiado largo. Máximo 500 caracteres.");
                 }
@@ -82,21 +77,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             throw new Exception("Para Hill, ingresa 4 números separados por coma (ej: 3,3,2,5)");
                         }
                         $matriz = [[$nums[0], $nums[1]], [$nums[2], $nums[3]]];
-                        $resultado = ($_POST['accion'] ?? '') === 'cifrar'
+                        $resultado = $accion === 'cifrar'
                             ? cifrarHill($texto, $matriz)
                             : descifrarHill($texto, $matriz);
                         break;
 
                     case 'playfair':
                         $clave = strtoupper(preg_replace('/[^A-Z]/', '', $clave));
-                        $resultado = ($_POST['accion'] ?? '') === 'cifrar'
+                        $resultado = $accion === 'cifrar'
                             ? cifrarPlayfair($texto, $clave)
                             : descifrarPlayfair($texto, $clave);
                         break;
 
                     case 'polialfabetica':
+                        // Cifrado polialfabético periódico
                         $clave = strtoupper(preg_replace('/[^A-Z]/', '', $clave));
-                        $resultado = ($_POST['accion'] ?? '') === 'cifrar'
+                        $resultado = $accion === 'cifrar'
                             ? cifrarPolialfabeticoPer($texto, $clave)
                             : descifrarPolialfabeticoPer($texto, $clave);
                         break;

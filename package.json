@@ -1,0 +1,11 @@
+{
+  "name": "criptografia-clasica",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "npx tailwindcss -i assets/css/input.css -o assets/css/styles.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
