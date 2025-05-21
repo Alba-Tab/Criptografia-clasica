@@ -12,7 +12,7 @@ require_once __DIR__ . '/../../controllers/procesar.php';
     Cifrados, Algoritmos Matriciales
 </h2>
 
-<form id="form-advanced" method="POST" action="?tab=advanced" class="grid md:grid-cols-2 gap-8">
+<form id="form-advanced" method="POST" action="?tab=advanced" class="grid md:grid-cols-2 gap-8 ajax-form">
     <div>
         <label for="algoritmo" class="block mb-2">Seleccione el algoritmo:</label>
         <select name="algoritmo" id="algoritmo" class="w-full border rounded-md px-3 py-2" required>

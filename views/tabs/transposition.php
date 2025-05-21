@@ -37,16 +37,17 @@ require_once __DIR__ . '/../../controllers/procesar.php';
         <textarea name="texto" id="texto" rows="3" class="w-full border rounded-md px-3 py-2"
             required><?php echo htmlspecialchars($_POST['texto'] ?? ''); ?></textarea>
 
-        <label for="clave" class="block mt-4 mb-2">Clave (si aplica):</label>
+        <label for="clave" class="block mt-4 mb-2">Clave:</label>
         <input type="text" name="clave" id="clave" class="w-full border rounded-md px-3 py-2" required
-            value="<?php echo htmlspecialchars($_POST['clave'] ?? ''); ?>">
+            value="<?php echo htmlspecialchars($_POST['clave'] ?? ''); ?>"
+            placeholder="Clave según el algoritmo seleccionado">
 
         <div class="mt-4 space-x-2">
-            <button type="submit" name="accion" data-action="cifrar" value="cifrar"
+            <button type="submit" name="accion" value="cifrar" data-action="cifrar"
                 class="px-4 py-2 bg-blue-600 text-white rounded-md">
                 Cifrar
             </button>
-            <button type="submit" name="accion" data-action="descifrar" value="descifrar"
+            <button type="submit" name="accion" value="descifrar" data-action="descifrar"
                 class="px-4 py-2 bg-green-600 text-white rounded-md">
                 Descifrar
             </button>
@@ -56,11 +57,21 @@ require_once __DIR__ . '/../../controllers/procesar.php';
         <p class="block mb-2 font-semibold">Resultado:</p>
         <pre id="result"
             class="p-4 bg-gray-50 border rounded-md min-h-[6rem]"><?php echo htmlspecialchars($resultado); ?></pre>
-        <!--
-        <p class="block mt-4 mb-2 font-semibold">Proceso:</p>
-        <div id="process" class="p-4 bg-gray-50 border rounded-md">
-            <p class="italic text-gray-500">Aquí se mostrará el proceso…</p>
-        </div>
-         -->
+
     </div>
 </form>
+
+<div class="mt-8">
+    <h4 class="text-lg font-semibold mb-2">Instrucciones:</h4>
+    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
+        <li><strong>Anagramación:</strong> Introduce el número de filas para reorganizar el texto.</li>
+        <li><strong>Columnas:</strong> La clave es el número de columnas; el texto se escribe fila a fila y se lee
+            columna a columna.</li>
+        <li><strong>Filas:</strong> La clave es el número de filas; el texto se escribe columna a columna y se lee fila
+            a fila.</li>
+        <li><strong>Grupos:</strong> La clave define el tamaño de cada bloque; cada bloque se invierte.</li>
+        <li><strong>Series:</strong> Introduce una permutación de índices separados por coma (ej: 2,4,1,3) para
+            reordenar columnas.</li>
+        <li><strong>Zigzag:</strong> La clave es el número de raíles (capas) para el cifrado Rail Fence.</li>
+    </ul>
+</div>

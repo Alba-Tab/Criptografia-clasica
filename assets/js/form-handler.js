@@ -10,30 +10,62 @@ document.addEventListener("DOMContentLoaded", () => {
   const ejemploUso = document.getElementById("ejemplo-uso");
 
   const ejemplos = {
+    // Cifrados por sustitución
     mono_afin: {
-      placeholder: "Para Mono-afín: dos números separados por coma (ej: 5,8)",
+      placeholder:
+        "Dos números (multiplicador y desplazamiento) separados por coma (ej: 5,8)",
       ejemplo: "Texto: HOLA — Clave: 5,8",
     },
     monogramica: {
       placeholder:
-        "Para Monogramico: 26 letras sin repetir (ej: ZYXWVUTSRQPONMLKJIHGFEDCBA)",
-      ejemplo: "Texto: HOLA — Clave: ZYXWVUTSRQPONMLKJIHGFEDCBA",
+        "Abecedario permutado de 26 letras sin repetir (ej: ZYXWVUTSRQPONMLKJIHGFEDCBA)",
+      ejemplo: "Texto: MUNDO — Clave: ZYXWVUTSRQPONMLKJIHGFEDCBA",
     },
     polialfabetica: {
-      placeholder: "Para Polialfabético: palabra clave (ej: CLAVE)",
-      ejemplo: "Texto: HOLA — Clave: CLAVE",
+      placeholder: "Palabra clave para generar alfabetos (ej: CRIPTO)",
+      ejemplo: "Texto: SALUDO — Clave: CRIPTO",
     },
+
+    // Cifrados avanzados matriciales o de pares
     hill: {
-      placeholder: "Para Hill: 4 números separados por coma (ej: 3,3,2,5)",
-      ejemplo: "Texto: HOLA — Clave: 3,3,2,5",
+      placeholder: "4 números (matriz 2×2) separados por coma (ej: 3,3,2,5)",
+      ejemplo: "Texto: TEST — Clave: 3,3,2,5",
     },
     playfair: {
-      placeholder: "Para Playfair: palabra clave (ej: MONARCA)",
-      ejemplo: "Texto: HOLA — Clave: MONARCA",
+      placeholder: "Palabra clave sin repetir letras (ej: MONARCA)",
+      ejemplo: "Texto: ATTACKATDAWN — Clave: MONARCA",
     },
     kasiski: {
-      placeholder: "",
-      ejemplo: "Texto cifrado para analizar con Kasiski",
+      placeholder:
+        "Fragmento de texto cifrado (p.ej. un bloque de 30–50 caracteres)",
+      ejemplo: "Texto: ZJXQY ZKLMN OPQRS TUVWX YZABC D — sin clave",
+    },
+
+    // Cifrados por transposición
+    columnas: {
+      placeholder: "Número de columnas para la rejilla (ej: 3)",
+      ejemplo: "Texto: HOLA MUNDO — Clave: 3,1,4,2",
+    },
+    filas: {
+      placeholder: "Número de filas para la rejilla (ej: 3)",
+      ejemplo: "Texto: HOLA MUNDO — Clave: 3",
+    },
+    grupos: {
+      placeholder: "Tamaño de cada grupo de caracteres (ej: 4)",
+      ejemplo: "Texto: HELLOWORLD — Clave: 4",
+    },
+    series: {
+      placeholder:
+        "Secuencia de lectura (índices) separados por coma (ej: 2,4,1,3)",
+      ejemplo: "Texto: TRES — Clave: 2,4,1,3",
+    },
+    zigzag: {
+      placeholder: "Número de railes (capas) para Rail Fence (ej: 3)",
+      ejemplo: "Texto: SECRET MESSAGE — Clave: 3",
+    },
+    anagramacion: {
+      placeholder: "Número de rondas de anagramas (ej: 2)",
+      ejemplo: "Texto: HOLA MUNDO — Clave: 2",
     },
   };
 
@@ -47,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Oculta/mostrar controles especiales (p.ej. Kasiski)
     if (sel === "kasiski") {
+      // Kasiski no requiere clave, solo analizar
       claveInput.style.display = "none";
       claveLabel.style.display = "none";
       document.querySelector('[value="descifrar"]').style.display = "none";
@@ -57,7 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelector('[value="descifrar"]').style.display = "";
       document.querySelector('[value="cifrar"]').textContent = "Cifrar";
     }
-
+    if (sel === "anagramacion") {
+      document.querySelector('[value="descifrar"]').style.display = "none";
+      document.querySelector('[value="cifrar"]').textContent = "Analizar";
+    }
     // 3. Limpia campos y salida
     claveInput.value = "";
     textoInput.value = "";
@@ -74,9 +110,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const clave = form.querySelector('[name="clave"]');
       const algoritmo = form.querySelector('[name="algoritmo"]')?.value;
-      if (algoritmo === "hill") {
+      // Permitir distinto filtrado según algoritmo
+      if (algoritmo === "hill" || algoritmo === "series") {
+        // Hill y Series aceptan números y comas
         clave.value = clave.value.replace(/[^0-9,]/g, "");
+      } else if (["columnas", "filas", "grupos", "zigzag", "anagramacion"].includes(algoritmo)) {
+        // Transposición numérica: solo dígitos
+        clave.value = clave.value.replace(/[^0-9]/g, "");
       } else {
+        // Sustitución y polialfabéticos: solo letras
         clave.value = clave.value.replace(/[^A-Za-z]/g, "").toUpperCase();
       }
       // Luego el formulario continúa su envío normal...

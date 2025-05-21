@@ -112,11 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             case 'transposition':
                 // 4. Cifrados por transposición
+                // Preprocesar solo texto (clave se maneja internamente)
+                $texto = strtoupper(preg_replace('/[^A-Za-z]/', '', $texto));
                 switch ($algoritmo) {
                     case 'anagramacion':
-                        $resultado = ($accion === 'cifrar')
-                            ? cifrarAnagramacion($texto, $clave)
-                            : descifrarAnagramacion($texto, $clave);
+                        $resultado = reorderByRows($texto, $clave);
                         break;
                     case 'columnas':
                         $resultado = ($accion === 'cifrar')
