@@ -12,15 +12,15 @@ require_once __DIR__ . '/../../controllers/procesar.php';
     Cifra de Desplazamiento con Palabra Clave
 </h2>
 
-<form id="form-displacement" method="POST" class="grid md:grid-cols-2 gap-8">
+<form id="form-displacement" method="POST" action="?tab=displacement" class="grid md:grid-cols-2 gap-8 ajax-form">
     <div>
-        <label for="text" class="block mb-2">Texto:</label>
-        <textarea name="text" id="text" rows="3"
-            class="w-full border rounded-md px-3 py-2"><?php echo htmlspecialchars($_POST['text'] ?? ''); ?></textarea>
+        <label for="texto" class="block mt-4 mb-2">Texto:</label>
+        <textarea name="texto" id="texto" rows="3" class="w-full border rounded-md px-3 py-2"
+            required><?php echo htmlspecialchars($_POST['texto'] ?? ''); ?></textarea>
 
         <label for="key" class="block mt-4 mb-2">Palabra clave:</label>
-        <input name="key" id="key" type="text" class="w-full border rounded-md px-3 py-2"
-            value="<?php echo htmlspecialchars($_POST['key'] ?? ''); ?>">
+        <input type="text" name="clave" id="clave" class="w-full border rounded-md px-3 py-2" required
+            value="<?php echo htmlspecialchars($_POST['clave'] ?? ''); ?>" placeholder="Ejemplo: 'clave'">
 
         <!--
         <label for="shift" class="block mt-4 mb-2">Desplazamiento:</label>
@@ -28,12 +28,17 @@ require_once __DIR__ . '/../../controllers/procesar.php';
             class="w-full border rounded-md px-3 py-2">
          -->
         <div class="mt-4 space-x-2">
-            <button type="submit" name="accion" value="encrypt" class="px-4 py-2 bg-blue-600 text-white rounded-md">
+            <button type="submit" name="accion" data-action="cifrar"
+                class="px-4 py-2 bg-blue-600 text-white rounded-md">
                 Cifrar
             </button>
-            <button type="submit" name="accion" value="decrypt" class="px-4 py-2 bg-green-600 text-white rounded-md">
+            <button type="submit" name="accion" data-action="descifrar"
+                class="px-4 py-2 bg-green-600 text-white rounded-md">
                 Descifrar
             </button>
+        </div>
+        <div class="mt-4 text-sm text-gray-600 italic" id="ejemplo-uso">
+            Selecciona un algoritmo para ver un ejemplo de uso.
         </div>
     </div>
 
@@ -41,10 +46,11 @@ require_once __DIR__ . '/../../controllers/procesar.php';
         <p class="block mb-2 font-semibold">Resultado:</p>
         <pre id="result"
             class="p-4 bg-gray-50 border rounded-md min-h-[6rem]"><?php echo htmlspecialchars($resultado); ?></pre>
-
+        <!--
         <p class="block mt-4 mb-2 font-semibold">Proceso:</p>
         <div id="process" class="p-4 bg-gray-50 border rounded-md">
             <p class="italic text-gray-500"><?php echo htmlspecialchars($resultado); ?></p>
         </div>
+         -->
     </div>
 </form>

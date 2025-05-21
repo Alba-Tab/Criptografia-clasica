@@ -8,6 +8,12 @@ require_once __DIR__ . '/../libs/sustitucion poligrafica/hill.php';
 require_once __DIR__ . '/../libs/kasiski.php';
 require_once __DIR__ . '/../libs/sustitucion poligrafica/playfair.php';
 require_once __DIR__ . '/../libs/sustitucion/polialfabeto_periodico.php';
+require_once __DIR__ . '/../libs/transposicion/anagramacion.php';
+require_once __DIR__ . '/../libs/transposicion/columnas.php';
+require_once __DIR__ . '/../libs/transposicion/filas.php';
+require_once __DIR__ . '/../libs/transposicion/grupos.php';
+require_once __DIR__ . '/../libs/transposicion/series.php';
+require_once __DIR__ . '/../libs/transposicion/zigzag.php';
 
 // Inicializar variables de resultado y error
 $resultado = '';
@@ -20,7 +26,7 @@ $tab = $_GET['tab'] ?? 'displacement';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $algoritmo = $_POST['algoritmo'] ?? '';
-        $texto     = strtoupper(preg_replace('/[^A-Z]/', '', $_POST['texto'] ?? ''));
+        $texto     = preg_replace('/[^A-Z]/', '', strtoupper($_POST['texto'] ?? ''));
         $clave     = $_POST['clave'] ?? '';
         $accion    = $_POST['accion'] ?? '';
         switch ($tab) {
@@ -58,8 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             case 'displacement':
                 // 2. Cifrado por desplazamiento con palabra clave
-
-
                 $resultado = ($accion === 'encrypt')
                     ? cifrarDesplazamiento($texto, $clave)
                     : descifrarDesplazamiento($texto, $clave);
@@ -107,8 +111,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
 
             case 'transposition':
-                // 4. Cifrados por transposición (pendiente de implementar)
-                // Aquí podrías llamar a funciones de anagramación, columnas, filas, etc.
+                // 4. Cifrados por transposición
+                switch ($algoritmo) {
+                    case 'anagramacion':
+                        $resultado = ($accion === 'cifrar')
+                            ? cifrarAnagramacion($texto, $clave)
+                            : descifrarAnagramacion($texto, $clave);
+                        break;
+                    case 'columnas':
+                        $resultado = ($accion === 'cifrar')
+                            ? cifrarColumnas($texto, $clave)
+                            : descifrarColumnas($texto, $clave);
+                        break;
+                    case 'filas':
+                        $resultado = ($accion === 'cifrar')
+                            ? cifrarFilas($texto, $clave)
+                            : descifrarFilas($texto, $clave);
+                        break;
+                    case 'grupos':
+                        $resultado = ($accion === 'cifrar')
+                            ? cifrarGrupos($texto, $clave)
+                            : descifrarGrupos($texto, $clave);
+                        break;
+                    case 'series':
+                        $resultado = ($accion === 'cifrar')
+                            ? cifrarSeries($texto, $clave)
+                            : descifrarSeries($texto, $clave);
+                        break;
+                    case 'zigzag':
+                        $resultado = ($accion === 'cifrar')
+                            ? cifrarZigzag($texto, $clave)
+                            : descifrarZigzag($texto, $clave);
+                        break;
+                    default:
+                        throw new Exception("Algoritmo de transposición no válido");
+                }
                 break;
 
             default:

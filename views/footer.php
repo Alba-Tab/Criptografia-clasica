@@ -3,6 +3,7 @@
 
 </div><!-- cierra container -->
 
+<script src="assets/js/form-handler.js"></script>
 </body>
 
 </html>
