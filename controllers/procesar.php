@@ -19,27 +19,12 @@ require_once __DIR__ . '/../libs/transposicion/zigzag.php';
 require_once __DIR__ . '/../libs/anagramacion.php';
 require_once __DIR__ . '/../libs/kasiski.php';
 
-// Iniciar sesión para guardar el algoritmo seleccionado
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 // Inicializar variables de resultado y error
 $resultado = '';
 $error = '';
 
 // Determinar la pestaña activa
 $tab = $_GET['tab'] ?? 'displacement';
-
-// Inicializar variables para cada pestaña
-if (!isset($_SESSION['tabs'])) {
-    $_SESSION['tabs'] = [
-        'displacement' => [],
-        'substitution' => [],
-        'transposition' => [],
-        'advanced' => []
-    ];
-}
 
 // Procesar el formulario al recibir POST según la pestaña
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -49,12 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $clave     = $_POST['clave'] ?? '';
         $accion    = $_POST['accion'] ?? '';
         $desplazamiento = $_POST['shift'] ?? 0;
-        
-        // Guardar el algoritmo seleccionado en la sesión para la pestaña actual
-        if (!empty($algoritmo)) {
-            $_SESSION['tabs'][$tab]['algoritmo'] = $algoritmo;
-        }
-        
         switch ($tab) {
             case 'displacement':
                 // 1. Cifrado por desplazamiento con palabra clave

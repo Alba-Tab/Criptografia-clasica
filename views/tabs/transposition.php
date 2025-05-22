@@ -1,8 +1,5 @@
 <?php 
-require_once __DIR__ . '/../../controllers/procesar.php';
-
-// Obtener el algoritmo seleccionado de POST o SESSION
-$algoritmoSeleccionado = $_POST['algoritmo'] ?? $_SESSION['tabs']['transposition']['algoritmo'] ?? '';
+require_once __DIR__ . '/../../controllers/procesar.php'; 
 ?>
 
 <?php if (!empty($error)): ?>
@@ -15,26 +12,26 @@ $algoritmoSeleccionado = $_POST['algoritmo'] ?? $_SESSION['tabs']['transposition
     Cifrados por Transposición
 </h2>
 
-<form id="form-transposition" method="POST" action="?tab=transposition" class="grid md:grid-cols-2 gap-8 ajax-form">
+<form id="form-transposition" method="POST" action="?tab=transposition" class="grid md:grid-cols-2 gap-8">
     <div>
         <label for="algoritmo" class="block mb-2">Seleccione el algoritmo:</label>
         <select name="algoritmo" id="algoritmo" class="w-full border rounded-md px-3 py-2" required>
 
-            <option value="" disabled <?php echo empty($algoritmoSeleccionado) ? 'selected' : ''; ?>>Seleccionar método</option>
+            <option value="" disabled selected>Seleccionar método</option>
 
-            <option value="columnas" <?php echo $algoritmoSeleccionado === 'columnas' ? 'selected' : ''; ?>>
+            <option value="columnas" <?php echo ($_POST['algoritmo'] ?? '') === 'columnas' ? 'selected' : ''; ?>>
                 Columnas</option>
 
-            <option value="filas" <?php echo $algoritmoSeleccionado === 'filas' ? 'selected' : ''; ?>>
+            <option value="filas" <?php echo ($_POST['algoritmo'] ?? '') === 'filas' ? 'selected' : ''; ?>>
                 Filas</option>
 
-            <option value="grupos" <?php echo $algoritmoSeleccionado === 'grupos' ? 'selected' : ''; ?>>
+            <option value="grupos" <?php echo ($_POST['algoritmo'] ?? '') === 'grupos' ? 'selected' : ''; ?>>
                 Grupos</option>
 
-            <option value="series" <?php echo $algoritmoSeleccionado === 'series' ? 'selected' : ''; ?>>
+            <option value="series" <?php echo ($_POST['algoritmo'] ?? '') === 'series' ? 'selected' : ''; ?>>
                 Series</option>
 
-            <option value="zigzag" <?php echo $algoritmoSeleccionado === 'zigzag' ? 'selected' : ''; ?>>
+            <option value="zigzag" <?php echo ($_POST['algoritmo'] ?? '') === 'zigzag' ? 'selected' : ''; ?>>
                 Zigzag</option>
 
         </select>
@@ -46,7 +43,9 @@ $algoritmoSeleccionado = $_POST['algoritmo'] ?? $_SESSION['tabs']['transposition
         <label for="clave" class="block mt-4 mb-2">Clave:</label>
         <input type="text" name="clave" id="clave" class="w-full border rounded-md px-3 py-2" required
             value="<?php echo htmlspecialchars($_POST['clave'] ?? ''); ?>"
-            placeholder="Clave según el algoritmo seleccionado">        <div class="mt-4 space-x-2">
+            placeholder="Clave según el algoritmo seleccionado">
+
+        <div class="mt-4 space-x-2">
             <button type="submit" name="accion" value="cifrar" data-action="cifrar"
                 class="px-4 py-2 bg-blue-600 text-white rounded-md">
                 Cifrar
@@ -55,9 +54,6 @@ $algoritmoSeleccionado = $_POST['algoritmo'] ?? $_SESSION['tabs']['transposition
                 class="px-4 py-2 bg-green-600 text-white rounded-md">
                 Descifrar
             </button>
-        </div>
-        <div class="mt-4 text-sm text-gray-600 italic" id="ejemplo-uso">
-            Selecciona un algoritmo para ver un ejemplo de uso.
         </div>
     </div>
     <div>
@@ -68,12 +64,97 @@ $algoritmoSeleccionado = $_POST['algoritmo'] ?? $_SESSION['tabs']['transposition
     </div>
 </form>
 
-<div class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md">
-    <h4 class="font-semibold mb-2">Instrucciones de uso:</h4>
-    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
-        <li><strong>Selecciona</strong> un algoritmo para ver su descripción y un ejemplo.</li>
-        <li><strong>Introduce</strong> el texto que quieres cifrar o descifrar.</li>
-        <li><strong>Ingresa</strong> la clave según se indique para el algoritmo seleccionado.</li>
-        <li><strong>Haz clic</strong> en el botón correspondiente para cifrar o descifrar.</li>
-    </ul>
+<div class="mt-8">
+    <h3 class="text-xl font-semibold mb-4 text-blue-600">Ejemplos de Uso</h3>
+
+    <div class="grid md:grid-cols-2 gap-6">
+        <!-- Columnas -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Columnas</h4>
+            <div class="space-y-3">
+                <p>Se escribe el texto <strong>fila a fila</strong> y se lee <strong>columna a columna</strong>.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> HOLAMUNDO</p>
+                    <p><strong>Clave:</strong> 3 (columnas)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2 text-center">
+                        H O L<br>
+                        A M U<br>
+                        N D O
+                    </div>
+                    <p><strong>Resultado:</strong> HANUOMLDO</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filas -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Filas</h4>
+            <div class="space-y-3">
+                <p>Se escribe el texto <strong>columna a columna</strong> y se lee <strong>fila a fila</strong>.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> HOLAMUNDO</p>
+                    <p><strong>Clave:</strong> 3 (filas)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2 text-center">
+                        H A N<br>
+                        O M D<br>
+                        L U O
+                    </div>
+                    <p><strong>Resultado:</strong> HANOMDLUO</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grupos -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Grupos</h4>
+            <div class="space-y-3">
+                <p>Se divide el texto en bloques del tamaño indicado y cada bloque se invierte.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> HOLAMUNDO</p>
+                    <p><strong>Clave:</strong> 4 (tamaño de grupo)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2">
+                        HOLA | MUND | O<br>
+                        ALOH | DNUM | O
+                    </div>
+                    <p><strong>Resultado:</strong> ALOHDNUMO</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Series -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Series</h4>
+            <div class="space-y-3">
+                <p>Reordena las columnas según la permutación indicada.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> TRES</p>
+                    <p><strong>Clave:</strong> 2,4,1,3 (permutación)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2 text-center">
+                        Columnas: 1 2 3 4<br>
+                        Permutación: 2,4,1,3<br>
+                        T R E S → R S T E
+                    </div>
+                    <p><strong>Resultado:</strong> RSTE</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zigzag -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Rail Fence (Zigzag)</h4>
+            <div class="space-y-3">
+                <p>Se escribe el texto en zigzag con el número de raíles indicado.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> HOLAMUNDO</p>
+                    <p><strong>Clave:</strong> 3 (raíles)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2">
+                        H &nbsp; &nbsp; A &nbsp; &nbsp; U &nbsp; &nbsp;<br>
+                        &nbsp; O &nbsp; L &nbsp; M &nbsp; N &nbsp;<br>
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; D &nbsp; &nbsp; O
+                    </div>
+                    <p><strong>Resultado:</strong> HAUOLMNDO</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
