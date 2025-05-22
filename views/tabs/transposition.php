@@ -65,16 +65,96 @@ require_once __DIR__ . '/../../controllers/procesar.php';
 </form>
 
 <div class="mt-8">
-    <h4 class="text-lg font-semibold mb-2">Instrucciones:</h4>
-    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
-        <li><strong>Anagramación:</strong> Introduce el número de filas para reorganizar el texto.</li>
-        <li><strong>Columnas:</strong> La clave es el número de columnas; el texto se escribe fila a fila y se lee
-            columna a columna.</li>
-        <li><strong>Filas:</strong> La clave es el número de filas; el texto se escribe columna a columna y se lee fila
-            a fila.</li>
-        <li><strong>Grupos:</strong> La clave define el tamaño de cada bloque; cada bloque se invierte.</li>
-        <li><strong>Series:</strong> Introduce una permutación de índices separados por coma (ej: 2,4,1,3) para
-            reordenar columnas.</li>
-        <li><strong>Zigzag:</strong> La clave es el número de raíles (capas) para el cifrado Rail Fence.</li>
-    </ul>
+    <h3 class="text-xl font-semibold mb-4 text-blue-600">Ejemplos de Uso</h3>
+
+    <div class="grid md:grid-cols-2 gap-6">
+        <!-- Columnas -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Columnas</h4>
+            <div class="space-y-3">
+                <p>Se escribe el texto <strong>fila a fila</strong> y se lee <strong>columna a columna</strong>.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> HOLAMUNDO</p>
+                    <p><strong>Clave:</strong> 3 (columnas)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2 text-center">
+                        H O L<br>
+                        A M U<br>
+                        N D O
+                    </div>
+                    <p><strong>Resultado:</strong> HANUOMLDO</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filas -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Filas</h4>
+            <div class="space-y-3">
+                <p>Se escribe el texto <strong>columna a columna</strong> y se lee <strong>fila a fila</strong>.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> HOLAMUNDO</p>
+                    <p><strong>Clave:</strong> 3 (filas)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2 text-center">
+                        H A N<br>
+                        O M D<br>
+                        L U O
+                    </div>
+                    <p><strong>Resultado:</strong> HANOMDLUO</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grupos -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Grupos</h4>
+            <div class="space-y-3">
+                <p>Se divide el texto en bloques del tamaño indicado y cada bloque se invierte.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> HOLAMUNDO</p>
+                    <p><strong>Clave:</strong> 4 (tamaño de grupo)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2">
+                        HOLA | MUND | O<br>
+                        ALOH | DNUM | O
+                    </div>
+                    <p><strong>Resultado:</strong> ALOHDNUMO</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Series -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Series</h4>
+            <div class="space-y-3">
+                <p>Reordena las columnas según la permutación indicada.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> TRES</p>
+                    <p><strong>Clave:</strong> 2,4,1,3 (permutación)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2 text-center">
+                        Columnas: 1 2 3 4<br>
+                        Permutación: 2,4,1,3<br>
+                        T R E S → R S T E
+                    </div>
+                    <p><strong>Resultado:</strong> RSTE</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zigzag -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h4 class="text-lg font-semibold text-blue-600 mb-3">Rail Fence (Zigzag)</h4>
+            <div class="space-y-3">
+                <p>Se escribe el texto en zigzag con el número de raíles indicado.</p>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <p><strong>Texto:</strong> HOLAMUNDO</p>
+                    <p><strong>Clave:</strong> 3 (raíles)</p>
+                    <div class="font-mono bg-gray-100 p-2 my-2">
+                        H &nbsp; &nbsp; A &nbsp; &nbsp; U &nbsp; &nbsp;<br>
+                        &nbsp; O &nbsp; L &nbsp; M &nbsp; N &nbsp;<br>
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; D &nbsp; &nbsp; O
+                    </div>
+                    <p><strong>Resultado:</strong> HAUOLMNDO</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

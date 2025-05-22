@@ -10,36 +10,38 @@ document.addEventListener("DOMContentLoaded", () => {
   const ejemploUso = document.getElementById("ejemplo-uso");
 
   const ejemplos = {
+    // Cifrados avanzados matriciales o de pares
     hill: {
-      placeholder: "4 números (matriz 2×2) separados por coma (ej: 3,3,2,5)",
+      placeholder: "4 números (matriz 2×2) separados por coma",
       ejemplo: "Texto: TEST — Clave: 3,3,2,5",
     },
+    // Sustitución monoalfabética
     mono_afin: {
       placeholder:
-        "Dos números (multiplicador y desplazamiento) separados por coma (ej: 5,8)",
+        "Dos números (multiplicador y desplazamiento) separados por coma",
       ejemplo: "Texto: HOLA — Clave: 5,8",
     },
     monogramica: {
-      placeholder:
-        "Abecedario permutado de 26 letras sin repetir (ej: ZYXWVUTSRQPONMLKJIHGFEDCBA)",
+      placeholder: "Alfabeto permutado de 26 letras sin repetir",
       ejemplo: "Texto: MUNDO — Clave: ZYXWVUTSRQPONMLKJIHGFEDCBA",
     },
     playfair: {
-      placeholder: "Palabra clave sin repetir letras (ej: MONARCA)",
-      ejemplo: "Texto: ATTACKATDAWN — Clave: MONARCA",
+      placeholder: "Palabra clave sin repetir letras",
+      ejemplo: "Texto: ATTACKATDAWN — Clave: MONARCHY",
     },
     vernam: {
-      placeholder: "Palabra clave para generar alfabetos (ej: CRIPTO)",
-      ejemplo: "Texto: SALUDO — Clave: CRIPTO",
+      placeholder: "Palabra clave de un solo uso (longitud igual al texto)",
+      ejemplo: "Texto: HOLA — Clave: XMCK",
     },
     vigenere: {
-      placeholder: "Palabra clave para generar alfabetos (ej: CRIPTO)",
+      placeholder: "Palabra clave",
       ejemplo: "Texto: SALUDO — Clave: CRIPTO",
     },
+
     // Cifrados por transposición
     columnas: {
       placeholder: "Número de columnas para la rejilla (ej: 3)",
-      ejemplo: "Texto: HOLA MUNDO — Clave: 3,1,4,2",
+      ejemplo: "Texto: HOLA MUNDO — Clave: 3",
     },
     filas: {
       placeholder: "Número de filas para la rejilla (ej: 3)",
@@ -55,16 +57,15 @@ document.addEventListener("DOMContentLoaded", () => {
       ejemplo: "Texto: TRES — Clave: 2,4,1,3",
     },
     zigzag: {
-      placeholder: "Número de railes (capas) para Rail Fence (ej: 3)",
+      placeholder: "Número de raíles (capas) para Rail Fence (ej: 3)",
       ejemplo: "Texto: SECRET MESSAGE — Clave: 3",
     },
     kasiski: {
-      placeholder:
-        "Fragmento de texto cifrado (p.ej. un bloque de 30–50 caracteres)",
-      ejemplo: "Texto: ZJXQY ZKLMN OPQRS TUVWX YZABC D — sin clave",
+      placeholder: "Texto cifrado (30–50 caracteres) para análisis Kasiski",
+      ejemplo: "Texto: ZJXQYZKLMNOPQRSTUVWX — sin clave",
     },
     anagramacion: {
-      placeholder: "Número de rondas de anagramas (ej: 2)",
+      placeholder: "Número de rondas de anagramación (ej: 2)",
       ejemplo: "Texto: HOLA MUNDO — Clave: 2",
     },
   };
