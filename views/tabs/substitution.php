@@ -18,12 +18,23 @@ require_once __DIR__ . '/../../controllers/procesar.php';
         <label for="algoritmo" class="block mb-2">Seleccione el algoritmo:</label>
         <select name="algoritmo" id="algoritmo" class="w-full border rounded-md px-3 py-2" required>
             <option value="" disabled selected>Seleccionar método</option>
-            <option value="mono_afin" <?php if(($_POST['algoritmo'] ?? '')==='mono_afin') echo 'selected'; ?>>Cifrado
-                Mono-afín</option>
+            <option value="hill" <?php echo ($_POST['algoritmo'] ?? '') === 'hill' ? 'selected' : ''; ?>>
+                Cifrado Hill</option>
+
+            <option value="mono_afin" <?php if(($_POST['algoritmo'] ?? '')==='mono_afin') echo 'selected'; ?>>
+                Cifrado Mono-afín</option>
+
             <option value="monogramica" <?php if(($_POST['algoritmo'] ?? '')==='monogramica') echo 'selected'; ?>>
                 Cifrado Monogramico</option>
-            <option value="polialfabetica" <?php if(($_POST['algoritmo'] ?? '')==='polialfabetica') echo 'selected'; ?>>
-                Cifrado Polialfabético</option>
+
+            <option value="playfair" <?php echo ($_POST['algoritmo'] ?? '') === 'playfair' ? 'selected' : ''; ?>>Cifrado
+                Playfair</option>
+
+            <option value="vernam" <?php if(($_POST['algoritmo'] ?? '')==='vernam') echo 'selected'; ?>>
+                Cifrado Polialfabético Vernam</option>
+
+            <option value="vigenere" <?php if(($_POST['algoritmo'] ?? '')==='vigenere') echo 'selected'; ?>>
+                Cifrado Polialfabético periodico vigenere</option>
         </select>
 
         <label for="texto" class="block mt-4 mb-2">Texto:</label>

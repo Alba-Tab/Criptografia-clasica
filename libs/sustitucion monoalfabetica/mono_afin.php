@@ -12,30 +12,6 @@
  */
 
 /**
- * Verifica si dos números son coprimos
- */
-function sonCoprimos($a, $b) {
-    while ($b != 0) {
-        $temp = $b;
-        $b = $a % $b;
-        $a = $temp;
-    }
-    return $a == 1;
-}
-
-/**
- * Calcula el inverso multiplicativo de a módulo m
- */
-function inversoMultiplicativo($a, $m) {
-    for ($x = 1; $x < $m; $x++) {
-        if ((($a % $m) * ($x % $m)) % $m == 1) {
-            return $x;
-        }
-    }
-    return 1;
-}
-
-/**
  * Cifra un texto usando el método mono-afín
  * @param string $texto Texto a cifrar
  * @param array $clave Array con [a, b] donde a es el multiplicador y b el desplazamiento
@@ -94,7 +70,29 @@ function descifrarMonoAfin($texto, $clave) {
     
     return $resultado;
 }
+/**
+ * Verifica si dos números son coprimos
+ */
+function sonCoprimos($a, $b) {
+    while ($b != 0) {
+        $temp = $b;
+        $b = $a % $b;
+        $a = $temp;
+    }
+    return $a == 1;
+}
 
+/**
+ * Calcula el inverso multiplicativo de a módulo m
+ */
+function inversoMultiplicativo($a, $m) {
+    for ($x = 1; $x < $m; $x++) {
+        if ((($a % $m) * ($x % $m)) % $m == 1) {
+            return $x;
+        }
+    }
+    return 1;
+}
 // Ejemplo de uso:
 /*
 $texto = "HOLA";
@@ -104,4 +102,4 @@ $descifrado = descifrar($cifrado, $clave);
 echo "Texto original: $texto\n";
 echo "Texto cifrado: $cifrado\n";
 echo "Texto descifrado: $descifrado\n";
-*/
+ */

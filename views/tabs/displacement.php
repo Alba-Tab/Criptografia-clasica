@@ -22,11 +22,11 @@ require_once __DIR__ . '/../../controllers/procesar.php';
         <input type="text" name="clave" id="clave" class="w-full border rounded-md px-3 py-2" required
             value="<?php echo htmlspecialchars($_POST['clave'] ?? ''); ?>" placeholder="Ejemplo: 'clave'">
 
-        <!--
+
         <label for="shift" class="block mt-4 mb-2">Desplazamiento:</label>
-        <input name="shift" id="shift" type="number" value="<?php echo htmlspecialchars($_POST['shift'] ?? '3'); ?>" min="1" max="25"
-            class="w-full border rounded-md px-3 py-2">
-         -->
+        <input name="shift" id="shift" type="number" value="<?php echo htmlspecialchars($_POST['shift'] ?? '3'); ?>"
+            min="1" max="25" class="w-full border rounded-md px-3 py-2">
+
         <div class="mt-4 space-x-2">
             <button type="submit" name="accion" data-action="cifrar" value="cifrar"
                 class="px-4 py-2 bg-blue-600 text-white rounded-md">

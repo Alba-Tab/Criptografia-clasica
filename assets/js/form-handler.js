@@ -10,7 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const ejemploUso = document.getElementById("ejemplo-uso");
 
   const ejemplos = {
-    // Cifrados por sustitución
+    hill: {
+      placeholder: "4 números (matriz 2×2) separados por coma (ej: 3,3,2,5)",
+      ejemplo: "Texto: TEST — Clave: 3,3,2,5",
+    },
     mono_afin: {
       placeholder:
         "Dos números (multiplicador y desplazamiento) separados por coma (ej: 5,8)",
@@ -21,26 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
         "Abecedario permutado de 26 letras sin repetir (ej: ZYXWVUTSRQPONMLKJIHGFEDCBA)",
       ejemplo: "Texto: MUNDO — Clave: ZYXWVUTSRQPONMLKJIHGFEDCBA",
     },
-    polialfabetica: {
-      placeholder: "Palabra clave para generar alfabetos (ej: CRIPTO)",
-      ejemplo: "Texto: SALUDO — Clave: CRIPTO",
-    },
-
-    // Cifrados avanzados matriciales o de pares
-    hill: {
-      placeholder: "4 números (matriz 2×2) separados por coma (ej: 3,3,2,5)",
-      ejemplo: "Texto: TEST — Clave: 3,3,2,5",
-    },
     playfair: {
       placeholder: "Palabra clave sin repetir letras (ej: MONARCA)",
       ejemplo: "Texto: ATTACKATDAWN — Clave: MONARCA",
     },
-    kasiski: {
-      placeholder:
-        "Fragmento de texto cifrado (p.ej. un bloque de 30–50 caracteres)",
-      ejemplo: "Texto: ZJXQY ZKLMN OPQRS TUVWX YZABC D — sin clave",
+    vernam: {
+      placeholder: "Palabra clave para generar alfabetos (ej: CRIPTO)",
+      ejemplo: "Texto: SALUDO — Clave: CRIPTO",
     },
-
+    vigenere: {
+      placeholder: "Palabra clave para generar alfabetos (ej: CRIPTO)",
+      ejemplo: "Texto: SALUDO — Clave: CRIPTO",
+    },
     // Cifrados por transposición
     columnas: {
       placeholder: "Número de columnas para la rejilla (ej: 3)",
@@ -62,6 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
     zigzag: {
       placeholder: "Número de railes (capas) para Rail Fence (ej: 3)",
       ejemplo: "Texto: SECRET MESSAGE — Clave: 3",
+    },
+    kasiski: {
+      placeholder:
+        "Fragmento de texto cifrado (p.ej. un bloque de 30–50 caracteres)",
+      ejemplo: "Texto: ZJXQY ZKLMN OPQRS TUVWX YZABC D — sin clave",
     },
     anagramacion: {
       placeholder: "Número de rondas de anagramas (ej: 2)",
@@ -114,7 +114,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (algoritmo === "hill" || algoritmo === "series") {
         // Hill y Series aceptan números y comas
         clave.value = clave.value.replace(/[^0-9,]/g, "");
-      } else if (["columnas", "filas", "grupos", "zigzag", "anagramacion"].includes(algoritmo)) {
+      } else if (
+        ["columnas", "filas", "grupos", "zigzag", "anagramacion"].includes(
+          algoritmo
+        )
+      ) {
         // Transposición numérica: solo dígitos
         clave.value = clave.value.replace(/[^0-9]/g, "");
       } else {

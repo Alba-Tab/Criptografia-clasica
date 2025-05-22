@@ -19,18 +19,21 @@ require_once __DIR__ . '/../../controllers/procesar.php';
 
             <option value="" disabled selected>Seleccionar método</option>
 
-            <option value="anagramacion"
-                <?php echo ($_POST['algoritmo'] ?? '') === 'anagramacion' ? 'selected' : ''; ?>>Anagramación</option>
             <option value="columnas" <?php echo ($_POST['algoritmo'] ?? '') === 'columnas' ? 'selected' : ''; ?>>
                 Columnas</option>
-            <option value="filas" <?php echo ($_POST['algoritmo'] ?? '') === 'filas' ? 'selected' : ''; ?>>Filas
-            </option>
-            <option value="grupos" <?php echo ($_POST['algoritmo'] ?? '') === 'grupos' ? 'selected' : ''; ?>>Grupos
-            </option>
-            <option value="series" <?php echo ($_POST['algoritmo'] ?? '') === 'series' ? 'selected' : ''; ?>>Series
-            </option>
-            <option value="zigzag" <?php echo ($_POST['algoritmo'] ?? '') === 'zigzag' ? 'selected' : ''; ?>>Zigzag
-            </option>
+
+            <option value="filas" <?php echo ($_POST['algoritmo'] ?? '') === 'filas' ? 'selected' : ''; ?>>
+                Filas</option>
+
+            <option value="grupos" <?php echo ($_POST['algoritmo'] ?? '') === 'grupos' ? 'selected' : ''; ?>>
+                Grupos</option>
+
+            <option value="series" <?php echo ($_POST['algoritmo'] ?? '') === 'series' ? 'selected' : ''; ?>>
+                Series</option>
+
+            <option value="zigzag" <?php echo ($_POST['algoritmo'] ?? '') === 'zigzag' ? 'selected' : ''; ?>>
+                Zigzag</option>
+
         </select>
 
         <label for="texto" class="block mt-4 mb-2">Texto:</label>

@@ -17,15 +17,14 @@ require_once __DIR__ . '/../../controllers/procesar.php';
         <label for="algoritmo" class="block mb-2">Seleccione el algoritmo:</label>
         <select name="algoritmo" id="algoritmo" class="w-full border rounded-md px-3 py-2" required>
             <option value="" disabled selected>Seleccionar método</option>
-            <option value="hill" <?php echo ($_POST['algoritmo'] ?? '') === 'hill' ? 'selected' : ''; ?>>Cifrado Hill
-            </option>
-            <option value="playfair" <?php echo ($_POST['algoritmo'] ?? '') === 'playfair' ? 'selected' : ''; ?>>Cifrado
-                Playfair</option>
-            <option value="polialfabetica"
-                <?php echo ($_POST['algoritmo'] ?? '') === 'polialfabetica' ? 'selected' : ''; ?>>Cifrado Polialfabético
-            </option>
+
+            <option value="anagramacion"
+                <?php echo ($_POST['algoritmo'] ?? '') === 'anagramacion' ? 'selected' : ''; ?>>
+                Anagramación</option>
+
             <option value="kasiski" <?php echo ($_POST['algoritmo'] ?? '') === 'kasiski' ? 'selected' : ''; ?>>Análisis
                 Kasiski</option>
+
         </select>
 
         <label for="texto" class="block mt-4 mb-2">Texto:</label>

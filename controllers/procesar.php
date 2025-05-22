@@ -1,19 +1,23 @@
 <?php
 // Incluir los algoritmos de sustitución
-require_once __DIR__ . '/../libs/sustitucion/mono_afin.php';
-require_once __DIR__ . '/../libs/sustitucion/monogramica.php';
-require_once __DIR__ . '/../libs/sustitucion/polialfabetica.php';
 require_once __DIR__ . '/../libs/desplazamiento/palabra_clave.php';
-require_once __DIR__ . '/../libs/sustitucion poligrafica/hill.php';
-require_once __DIR__ . '/../libs/kasiski.php';
-require_once __DIR__ . '/../libs/sustitucion poligrafica/playfair.php';
-require_once __DIR__ . '/../libs/sustitucion/polialfabeto_periodico.php';
-require_once __DIR__ . '/../libs/transposicion/anagramacion.php';
+
+require_once __DIR__ . '/../libs/sustitucion monoalfabetica/hill.php';
+require_once __DIR__ . '/../libs/sustitucion monoalfabetica/mono_afin.php';
+require_once __DIR__ . '/../libs/sustitucion monoalfabetica/monogramica.php';
+require_once __DIR__ . '/../libs/sustitucion monoalfabetica/playfair.php';
+
+require_once __DIR__ . '/../libs/sustitucion polialfabetica/vernam.php';
+require_once __DIR__ . '/../libs/sustitucion polialfabetica/vigenere.php';
+
 require_once __DIR__ . '/../libs/transposicion/columnas.php';
 require_once __DIR__ . '/../libs/transposicion/filas.php';
 require_once __DIR__ . '/../libs/transposicion/grupos.php';
 require_once __DIR__ . '/../libs/transposicion/series.php';
 require_once __DIR__ . '/../libs/transposicion/zigzag.php';
+
+require_once __DIR__ . '/../libs/anagramacion.php';
+require_once __DIR__ . '/../libs/kasiski.php';
 
 // Inicializar variables de resultado y error
 $resultado = '';
@@ -29,11 +33,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $texto     = strtoupper(preg_replace('/[^A-Za-z]/', '', $_POST['texto'] ?? ''));
         $clave     = $_POST['clave'] ?? '';
         $accion    = $_POST['accion'] ?? '';
+        $desplazamiento = $_POST['shift'] ?? 0;
         switch ($tab) {
+            case 'displacement':
+                // 1. Cifrado por desplazamiento con palabra clave
+                $resultado = ($accion === 'cifrar')
+                    ? cifrarCesarConClave($texto, $clave, $desplazamiento)
+                    : descifrarCesarConClave($texto, $clave, $desplazamiento);
+                break;
+
             case 'substitution':
-                // 1. Cifrados por sustitución
+                // 2. Cifrados por sustitución
 
                 switch ($algoritmo) {
+                    case 'hill':
+                        $nums = array_map('intval', explode(',', preg_replace('/[^0-9,]/', '', $clave)));
+                        if (count($nums) !== 4) {
+                            throw new Exception("Para Hill, ingresa 4 números separados por coma (ej: 3,3,2,5)");
+                        }
+                        $matriz = [[$nums[0], $nums[1]], [$nums[2], $nums[3]]];
+                        $resultado = $accion === 'cifrar'
+                            ? cifrarHill($texto, $matriz)
+                            : descifrarHill($texto, $matriz);
+                        break;
+
                     case 'mono_afin':
                         $partes = explode(',', $clave);
                         if (count($partes) !== 2) {
@@ -50,8 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             ? cifrarMonogramico($texto, $clave)
                             : descifrarMonogramico($texto, $clave);
                         break;
-
-                    case 'polialfabetica':
+                    case 'playfair':
+                        $clave = strtoupper(preg_replace('/[^A-Za-z]/', '', $clave));
+                        $resultado = $accion === 'cifrar'
+                            ? cifrarPlayfair($texto, $clave)
+                            : descifrarPlayfair($texto, $clave);
+                        break;
+                    case 'vernam':
+                        $resultado = ($accion === 'cifrar')
+                            ? cifrarVernam($texto, $clave)
+                            : descifrarVernam($texto, $clave);
+                        break;
+                    case 'vigenere':
                         $resultado = ($accion === 'cifrar')
                             ? cifrarPolialfabetico($texto, $clave)
                             : descifrarPolialfabetico($texto, $clave);
@@ -62,62 +95,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 break;
 
-            case 'displacement':
-                // 2. Cifrado por desplazamiento con palabra clave
-                $resultado = ($accion === 'cifrar')
-                    ? cifrarDesplazamiento($texto, $clave)
-                    : descifrarDesplazamiento($texto, $clave);
-                break;
 
-            case 'advanced':
-                // 3. Algoritmos matriciales y de análisis avanzados
-                if (strlen($texto) > 500) {
-                    throw new Exception("Texto demasiado largo. Máximo 500 caracteres.");
-                }
-                switch ($algoritmo) {
-                    case 'hill':
-                        $nums = array_map('intval', explode(',', preg_replace('/[^0-9,]/', '', $clave)));
-                        if (count($nums) !== 4) {
-                            throw new Exception("Para Hill, ingresa 4 números separados por coma (ej: 3,3,2,5)");
-                        }
-                        $matriz = [[$nums[0], $nums[1]], [$nums[2], $nums[3]]];
-                        $resultado = $accion === 'cifrar'
-                            ? cifrarHill($texto, $matriz)
-                            : descifrarHill($texto, $matriz);
-                        break;
-
-                    case 'playfair':
-                        $clave = strtoupper(preg_replace('/[^A-Za-z]/', '', $clave));
-                        $resultado = $accion === 'cifrar'
-                            ? cifrarPlayfair($texto, $clave)
-                            : descifrarPlayfair($texto, $clave);
-                        break;
-
-                    case 'polialfabetica':
-                        // Cifrado polialfabético periódico
-                        $clave = strtoupper(preg_replace('/[^A-Za-z]/', '', $clave));
-                        $resultado = $accion === 'cifrar'
-                            ? cifrarPolialfabeticoPer($texto, $clave)
-                            : descifrarPolialfabeticoPer($texto, $clave);
-                        break;
-
-                    case 'kasiski':
-                        $resultado = analisisKasiski($texto);
-                        break;
-
-                    default:
-                        throw new Exception("Algoritmo avanzado no válido");
-                }
-                break;
+                
+            
 
             case 'transposition':
                 // 4. Cifrados por transposición
                 // Preprocesar solo texto (clave se maneja internamente)
                 $texto = strtoupper(preg_replace('/[^A-Za-z]/', '', $texto));
                 switch ($algoritmo) {
-                    case 'anagramacion':
-                        $resultado = reorderByRows($texto, $clave);
-                        break;
+
                     case 'columnas':
                         $resultado = ($accion === 'cifrar')
                             ? cifrarColumnas($texto, $clave)
@@ -148,7 +135,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 break;
 
-            default:
+            case 'advanced':
+                
+                if (strlen($texto) > 500) {
+                    throw new Exception("Texto demasiado largo. Máximo 500 caracteres.");
+                }
+                switch ($algoritmo) {
+                    case 'anagramacion':
+                        $resultado = reorderByRows($texto, $clave);
+                        break;
+
+                    case 'kasiski':
+                        $resultado = analisisKasiski($texto);
+                        break;
+
+                    default:
+                        throw new Exception("Algoritmo avanzado no válido");
+                }
+                break;
+                default:
                 throw new Exception("Pestaña no válida");
         }
 

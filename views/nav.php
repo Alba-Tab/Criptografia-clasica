@@ -2,8 +2,8 @@
 // Definir las pestañas disponibles
 $tabs = [
     'displacement'   => 'Desplazamiento',
-    'transposition'  => 'Transposición',
     'substitution'   => 'Sustitución',
+    'transposition'  => 'Transposición',
     'advanced'       => 'Avanzados'
 ];
 ?>

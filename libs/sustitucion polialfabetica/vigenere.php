@@ -1,6 +1,6 @@
 <?php
 /**
- * Cifrado Polialfabético
+ * Cifrado de sustitucion  Polialfabético
  * 
  * Este algoritmo implementa un cifrado polialfabético donde se utilizan múltiples
  * alfabetos de sustitución en un patrón cíclico. La clave determina qué alfabeto
