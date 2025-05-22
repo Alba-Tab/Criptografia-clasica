@@ -43,9 +43,7 @@ require_once __DIR__ . '/../../controllers/procesar.php';
         <label for="clave" class="block mt-4 mb-2">Clave:</label>
         <input type="text" name="clave" id="clave" class="w-full border rounded-md px-3 py-2" required
             value="<?php echo htmlspecialchars($_POST['clave'] ?? ''); ?>"
-            placeholder="Clave según el algoritmo seleccionado">
-
-        <div class="mt-4 space-x-2">
+            placeholder="Clave según el algoritmo seleccionado">        <div class="mt-4 space-x-2">
             <button type="submit" name="accion" value="cifrar" data-action="cifrar"
                 class="px-4 py-2 bg-blue-600 text-white rounded-md">
                 Cifrar
@@ -54,6 +52,9 @@ require_once __DIR__ . '/../../controllers/procesar.php';
                 class="px-4 py-2 bg-green-600 text-white rounded-md">
                 Descifrar
             </button>
+        </div>
+        <div class="mt-4 text-sm text-gray-600 italic" id="ejemplo-uso">
+            Selecciona un algoritmo para ver un ejemplo de uso.
         </div>
     </div>
     <div>
@@ -64,41 +65,17 @@ require_once __DIR__ . '/../../controllers/procesar.php';
     </div>
 </form>
 
-<div class="mt-8">
-    <h3 class="text-xl font-semibold mb-4 text-blue-600">Ejemplos de Uso</h3>
+<div class="mt-4">
+    <h4 class="font-semibold mb-2">Instrucciones:</h4>
+    <ul class="list-disc pl-5 space-y-2">
+        <li>Selecciona un algoritmo para ver su descripción y ejemplo de uso</li>
+        <li>Introduce el texto a cifrar/descifrar</li>
+        <li>Ingresa la clave según el formato indicado para cada algoritmo</li>
+        <li>Haz clic en "Cifrar" o "Descifrar" según necesites</li>
+    </ul>
+</div>
 
-    <div class="grid md:grid-cols-2 gap-6">
-        <!-- Columnas -->
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Columnas</h4>
-            <div class="space-y-3">
-                <p>Se escribe el texto <strong>fila a fila</strong> y se lee <strong>columna a columna</strong>.</p>
-                <div class="bg-blue-50 p-3 rounded-md">
-                    <p><strong>Texto:</strong> HOLAMUNDO</p>
-                    <p><strong>Clave:</strong> 3 (columnas)</p>
-                    <div class="font-mono bg-gray-100 p-2 my-2 text-center">
-                        H O L<br>
-                        A M U<br>
-                        N D O
-                    </div>
-                    <p><strong>Resultado:</strong> HANUOMLDO</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Filas -->
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h4 class="text-lg font-semibold text-blue-600 mb-3">Transposición por Filas</h4>
-            <div class="space-y-3">
-                <p>Se escribe el texto <strong>columna a columna</strong> y se lee <strong>fila a fila</strong>.</p>
-                <div class="bg-blue-50 p-3 rounded-md">
-                    <p><strong>Texto:</strong> HOLAMUNDO</p>
-                    <p><strong>Clave:</strong> 3 (filas)</p>
-                    <div class="font-mono bg-gray-100 p-2 my-2 text-center">
-                        H A N<br>
-                        O M D<br>
-                        L U O
-                    </div>
+<!-- El div para la información del método se insertará aquí mediante JavaScript -->
                     <p><strong>Resultado:</strong> HANOMDLUO</p>
                 </div>
             </div>

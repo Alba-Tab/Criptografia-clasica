@@ -69,6 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         break;
 
                     case 'monogramica':
+                        // Validar que la clave tenga 26 caracteres
+                        if (strlen($clave) != 26) {
+                            $clave=completarClave($clave);
+                            //cambia el post de la clave
+                            $_POST['clave'] = $clave;
+                        }
                         $resultado = ($accion === 'cifrar')
                             ? cifrarMonogramico($texto, $clave)
                             : descifrarMonogramico($texto, $clave);

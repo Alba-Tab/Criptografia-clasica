@@ -18,7 +18,7 @@
 function cifrarMonogramico($texto, $clave) {
     // Validar que la clave tenga 26 caracteres
     if (strlen($clave) != 26) {
-        throw new Exception("La clave debe contener exactamente 26 caracteres");
+        completarClave($clave);
     }
 
     // Validar que la clave contenga solo letras
@@ -95,3 +95,28 @@ echo "Texto original: $texto\n";
 echo "Texto cifrado: $cifrado\n";
 echo "Texto descifrado: $descifrado\n";
 */
+//funcion para rellenar el alfabeto si la clave le falta letras o quitarle si tiene letras repetidas o no deseadas
+/**
+ * Completa el alfabeto en la clave, eliminando letras repetidas y añadiendo las faltantes
+ * @param string $clave Clave a completar
+ * @return string Clave completada
+ */
+function completarClave($clave) {
+    $alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $clave = strtoupper($clave);
+    
+    // Eliminar caracteres no alfabéticos
+    $clave = preg_replace('/[^A-Z]/', '', $clave);
+    
+    // Eliminar letras repetidas
+    $clave = implode('', array_unique(str_split($clave)));
+    
+    // Añadir letras faltantes
+    foreach (str_split($alfabeto) as $letra) {
+        if (strpos($clave, $letra) === false) {
+            $clave .= $letra;
+        }
+    }
+    
+    return substr($clave, 0, 26); 
+}

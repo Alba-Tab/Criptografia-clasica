@@ -54,7 +54,7 @@ function verificarMatrizClave($matriz) {
 
 function limpiarTexto($texto) {
     global $alfabeto;
-    $texto = mb_strtoupper($texto, 'UTF-8');
+    $texto = strtoupper($texto);
     $texto_limpio = preg_replace('/[^' . $alfabeto . ']/u', '', $texto);
 
     if ($texto_limpio !== $texto) {
@@ -65,7 +65,7 @@ function limpiarTexto($texto) {
 }
 
 function rellenarTexto($texto, $tamano_matriz) {
-    while (mb_strlen($texto, 'UTF-8') % $tamano_matriz !== 0) {
+    while (strlen($texto) % $tamano_matriz !== 0) {
         $texto .= 'X';
     }
     return $texto;
@@ -90,23 +90,21 @@ function cifrarHill($texto, $matriz) {
     verificarMatrizClave($matriz);
     $n = count($matriz);
 
-    $texto = rellenarTexto($texto, $n);
+    $texto = rellenarTexto($texto, $n);    $resultado = '';
 
-    $resultado = '';
-
-    for ($i = 0; $i < mb_strlen($texto, 'UTF-8'); $i += $n) {
+    for ($i = 0; $i < strlen($texto); $i += $n) {
         $bloque = [];
 
         for ($j = 0; $j < $n; $j++) {
-            $letra = mb_substr($texto, $i + $j, 1, 'UTF-8');
-            $pos = mb_strpos($alfabeto, $letra, 0, 'UTF-8');
+            $letra = $texto[$i + $j];
+            $pos = strpos($alfabeto, $letra);
             $bloque[] = $pos;
         }
 
         $bloqueCifrado = multiplicarMatrizModulo($matriz, $bloque, $modulo);
 
         foreach ($bloqueCifrado as $num) {
-            $resultado .= mb_substr($alfabeto, $num, 1, 'UTF-8');
+            $resultado .= $alfabeto[$num];
         }
     }
 
@@ -160,26 +158,23 @@ function descifrarHill($texto, $matriz) {
     $texto = rellenarTexto($texto, $n);
 
     // Calcular matriz inversa
-    $matrizInversa = inversaMatriz($matriz, $modulo);
+    $matrizInversa = inversaMatriz($matriz, $modulo);    $resultado = '';
 
-    $resultado = '';
-
-    for ($i = 0; $i < mb_strlen($texto, 'UTF-8'); $i += $n) {
+    for ($i = 0; $i < strlen($texto); $i += $n) {
         $bloque = [];
 
         for ($j = 0; $j < $n; $j++) {
-            $letra = mb_substr($texto, $i + $j, 1, 'UTF-8');
-            $pos = mb_strpos($alfabeto, $letra, 0, 'UTF-8');
+            $letra = $texto[$i + $j];
+            $pos = strpos($alfabeto, $letra);
             $bloque[] = $pos;
         }
 
         $bloqueDescifrado = multiplicarMatrizModulo($matrizInversa, $bloque, $modulo);
 
         foreach ($bloqueDescifrado as $num) {
-            $resultado .= mb_substr($alfabeto, $num, 1, 'UTF-8');
+            $resultado .= $alfabeto[$num];
         }
     }
 
     return $resultado;
 }
-

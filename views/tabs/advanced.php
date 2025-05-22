@@ -59,46 +59,17 @@ require_once __DIR__ . '/../../controllers/procesar.php';
     </div>
 </form>
 
-<div class="mt-8">
-    <h3 class="text-xl font-semibold mb-4 text-blue-600">Información Sobre los Métodos</h3>
-    <div class="grid md:grid-cols-2 gap-6">
-        <!-- Tarjeta para Anagramación -->
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h4 class="text-lg font-semibold text-blue-600 mb-3">Anagramación</h4>
-            <div class="space-y-3">
-                <p><strong>Descripción:</strong> Una técnica que reordena el texto cifrado buscando patrones de
-                    frecuencia en dígrafos (pares de letras) para descifrar mensajes por transposición.</p>
-                <p><strong>Funcionamiento:</strong> Se prueban distintas configuraciones (número de filas) y se evalúa
-                    la presencia de dígrafos comunes en español como "DE", "LA", "EN", etc.</p>
-                <div class="mt-4 bg-blue-50 p-3 rounded-md">
-                    <p class="text-sm"><strong>Ejemplo:</strong> Un texto cifrado por transposición como
-                        "LSRAEIOAMRTECRNODLUE" puede ser descifrado probando diferentes números de filas.</p>
-                    <p class="text-sm mt-2"><strong>Resultado:</strong> Al reordenar con 4 filas, podría recuperarse
-                        "LASERIEESELMUNDOCREATOR".</p>
-                </div>
-            </div>
-        </div>
+<div class="mt-4">
+    <h4 class="font-semibold mb-2">Instrucciones:</h4>
+    <ul class="list-disc pl-5 space-y-2">
+        <li>Selecciona un algoritmo para ver su descripción y ejemplo de uso</li>
+        <li>Introduce el texto a cifrar/descifrar</li>
+        <li>Ingresa la clave según el formato indicado para cada algoritmo</li>
+        <li>Haz clic en "Cifrar" o "Descifrar" según necesites</li>
+    </ul>
+</div>
 
-        <!-- Tarjeta para Kasiski -->
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h4 class="text-lg font-semibold text-blue-600 mb-3">Análisis Kasiski</h4>
-            <div class="space-y-3">
-                <p><strong>Descripción:</strong> Método para romper cifrados polialfabéticos periódicos como el de
-                    Vigenère buscando repeticiones en el texto cifrado.</p>
-                <p><strong>Funcionamiento:</strong> Identifica secuencias repetidas en el texto cifrado y calcula las
-                    distancias entre ellas para determinar la longitud de la clave.</p>
-                <div class="mt-4 bg-blue-50 p-3 rounded-md">
-                    <p class="text-sm"><strong>Ejemplo:</strong> Un texto cifrado "LXFOPVEFRNHR" con repeticiones cada 3
-                        posiciones sugiere una clave de longitud 3.</p>
-                    <p class="text-sm mt-2"><strong>Resultado:</strong> Con análisis de frecuencias en cada tercera
-                        letra, podría determinarse que la clave es "KEY".</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md">
-        <h4 class="font-semibold mb-2">Proceso de Análisis:</h4>
+<!-- El div para la información del método se insertará aquí mediante JavaScript -->
         <ol class="list-decimal pl-5 space-y-1">
             <li>Identifica el método de cifrado utilizado (sustitución o transposición)</li>
             <li>Selecciona el algoritmo adecuado para el análisis</li>
