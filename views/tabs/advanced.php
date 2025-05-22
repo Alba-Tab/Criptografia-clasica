@@ -32,7 +32,7 @@ require_once __DIR__ . '/../../controllers/procesar.php';
             required><?php echo htmlspecialchars($_POST['texto'] ?? ''); ?></textarea>
 
         <label for="clave" id="clave-label" class="block mt-4 mb-2">Clave:</label>
-        <input type="text" name="clave" id="clave" class="w-full border rounded-md px-3 py-2" required
+        <input type="text" name="clave" id="clave" class="w-full border rounded-md px-3 py-2"
             value="<?php echo htmlspecialchars($_POST['clave'] ?? ''); ?>"
             placeholder="Clave según el algoritmo seleccionado">
 
@@ -70,13 +70,13 @@ require_once __DIR__ . '/../../controllers/procesar.php';
 </div>
 
 <!-- El div para la información del método se insertará aquí mediante JavaScript -->
-        <ol class="list-decimal pl-5 space-y-1">
-            <li>Identifica el método de cifrado utilizado (sustitución o transposición)</li>
-            <li>Selecciona el algoritmo adecuado para el análisis</li>
-            <li>Introduce el texto cifrado en el campo correspondiente</li>
-            <li>Para Anagramación, especifica un número de filas a probar</li>
-            <li>Para Kasiski, el campo de clave puede dejarse vacío</li>
-            <li>Haz clic en "Analizar" para ver los resultados del análisis</li>
-        </ol>
-    </div>
+<ol class="list-decimal pl-5 space-y-1">
+    <li>Identifica el método de cifrado utilizado (sustitución o transposición)</li>
+    <li>Selecciona el algoritmo adecuado para el análisis</li>
+    <li>Introduce el texto cifrado en el campo correspondiente</li>
+    <li>Para Anagramación, especifica un número de filas a probar</li>
+    <li>Para Kasiski, el campo de clave puede dejarse vacío</li>
+    <li>Haz clic en "Analizar" para ver los resultados del análisis</li>
+</ol>
+</div>
 </div>

@@ -14,7 +14,7 @@
 function cifrarColumnas(string $texto, int $clave): string {
     // 1) Preprocesar: solo letras y mayúsculas
     $texto = preg_replace('/[^A-Za-z]/', '', $texto);
-    $texto = $texto;
+    $texto = strtoupper($texto);
 
     // 2) Interpretar clave
     $numCols = intval(preg_replace('/\D/', '', $clave));
@@ -22,26 +22,26 @@ function cifrarColumnas(string $texto, int $clave): string {
         throw new Exception("La clave debe ser un número de columnas válido");
     }
 
-    // 3) Calcular tamaño de la matriz
-    $L       = strlen($texto);
+    // 3) Calcular filas y padding
+    $L = strlen($texto);
     $numRows = (int) ceil($L / $numCols);
-
-    // 4) Rellenar por filas
-    $matrix = array_fill(0, $numRows, array_fill(0, $numCols, null));
-    $idx = 0;
-    for ($row = 0; $row < $numRows; $row++) {
-        for ($col = 0; $col < $numCols; $col++) {
-            if ($idx < $L) {
-                $matrix[$row][$col] = $texto[$idx++];
-            }
-        }
+    $padLen = $numRows * $numCols - $L;
+    if ($padLen > 0) {
+        $texto .= str_repeat('X', $padLen);
     }
-
-    // 5) Leer por columnas
+    // 3) Rellenar matriz fila a fila
+    $matrix = array_fill(0, $numRows, array_fill(0, $numCols, ''));
+    $idx = 0;
+    for ($r = 0; $r < $numRows; $r++) {
+        for ($c = 0; $c < $numCols; $c++) {
+            $matrix[$r][$c] = $texto[$idx++];
+        }
+    }   
+    // 4) Leer por columnas
     $cipher = '';
     for ($col = 0; $col < $numCols; $col++) {
         for ($row = 0; $row < $numRows; $row++) {
-            if (!empty($matrix[$row][$col])) {
+            if ($matrix[$row][$col] !== null) {
                 $cipher .= $matrix[$row][$col];
             }
         }
@@ -65,45 +65,35 @@ function cifrarColumnas(string $texto, int $clave): string {
 function descifrarColumnas(string $texto, int $clave): string {
     // 1) Preprocesar: solo letras y mayúsculas
     $texto = preg_replace('/[^A-Za-z]/', '', $texto);
-    $texto = $texto;
+    $texto = strtoupper($texto);
 
     // 2) Interpretar clave
     $numCols = intval(preg_replace('/\D/', '', $clave));
     if ($numCols < 1) {
         throw new Exception("La clave debe ser un número de columnas válido");
     }
+    // 2) Calcular filas (no hay remainder porque ya estaba relleno)
+    $L = strlen($texto);
+    $numRows = (int) ceil($L / $numCols);
 
-    // 3) Calcular dimensiones y distribución de longitudes
-    $L        = strlen($texto);
-    $numRows  = (int) ceil($L / $numCols);
-    $remainder = $L % $numCols; // columnas que tendrán una letra extra
-
-    // 4) Reconstruir matriz vacía
-    $matrix = array_fill(0, $numRows, array_fill(0, $numCols, null));
+    // 3) Rellenar matriz columna a columna
+    $matrix = array_fill(0, $numRows, array_fill(0, $numCols, ''));
     $idx = 0;
-
-    // 5) Llenar columna a columna, sabiendo cuántos caracteres va cada columna
-    for ($col = 0; $col < $numCols; $col++) {
-        // columnas < remainder tienen numRows, las demás numRows-1
-        $colLen = ($remainder > 0 && $col < $remainder) ? $numRows : ($numRows - 1);
-        for ($row = 0; $row < $colLen; $row++) {
-            if ($idx < $L) {
-                $matrix[$row][$col] = $texto[$idx++];
-            }
+    for ($c = 0; $c < $numCols; $c++) {
+        for ($r = 0; $r < $numRows; $r++) {
+            $matrix[$r][$c] = $texto[$idx++];
         }
     }
 
-    // 6) Leer la matriz por filas
+    // 4) Leer por filas y luego quitar padding
     $plain = '';
-    for ($row = 0; $row < $numRows; $row++) {
-        for ($col = 0; $col < $numCols; $col++) {
-            if (!empty($matrix[$row][$col])) {
-                $plain .= $matrix[$row][$col];
-            }
+    for ($r = 0; $r < $numRows; $r++) {
+        for ($c = 0; $c < $numCols; $c++) {
+            $plain .= $matrix[$r][$c];
         }
     }
-
-    return $plain;
+    // Quitar sólo las X finales (padding)
+    return rtrim($plain, 'X');
 }
 
 

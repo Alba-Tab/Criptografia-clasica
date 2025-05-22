@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="bg-blue-50 p-3 rounded-md">
               <p><strong>Texto:</strong> HOLA</p>
               <p><strong>Clave:</strong> 3,3,2,5 (matriz 2×2)</p>
-              <p><strong>Resultado:</strong> SBIX</p>
+              <p><strong>Resultado:</strong> IBEV</p>
             </div>
             <p class="text-xs text-gray-600">El determinante de la matriz debe ser coprimo con 26.</p>
           </div>
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="bg-blue-50 p-3 rounded-md">
               <p><strong>Texto:</strong> HOLA</p>
               <p><strong>Clave:</strong> 5,8 (a=5, b=8)</p>
-              <p><strong>Resultado:</strong> ZCMD</p>
+              <p><strong>Resultado:</strong> RALI</p>
             </div>
             <p class="text-xs text-gray-600">El primer número debe ser coprimo con 26 (válidos: 1,3,5,7,9,11,15,17,19,21,23,25)</p>
           </div>
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="bg-blue-50 p-3 rounded-md">
               <p><strong>Texto:</strong> HOLA</p>
               <p><strong>Clave:</strong> MONARCHY</p>
-              <p><strong>Resultado:</strong> IUPM</p>
+              <p><strong>Resultado:</strong> FHSM</p>
             </div>
             <p class="text-xs text-gray-600">I/J se consideran la misma letra en la matriz.</p>
           </div>
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="bg-blue-50 p-3 rounded-md">
               <p><strong>Texto:</strong> HOLA</p>
               <p><strong>Clave:</strong> XMCK (misma longitud)</p>
-              <p><strong>Resultado:</strong> ECNA</p>
+              <p><strong>Resultado:</strong> EANK</p>
             </div>
             <p class="text-xs text-gray-600">La clave debe tener exactamente la misma longitud que el mensaje.</p>
           </div>
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="bg-blue-50 p-3 rounded-md">
               <p><strong>Texto:</strong> SALUDO</p>
               <p><strong>Clave:</strong> CRIPTO</p>
-              <p><strong>Resultado:</strong> URPFHH</p>
+              <p><strong>Resultado:</strong> URTJWC</p>
             </div>
           </div>
         </div>
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 A M U<br>
                 N D O
               </div>
-              <p><strong>Resultado:</strong> HANUOMLDO</p>
+              <p><strong>Resultado:</strong> HANOMDLUO</p>
             </div>
           </div>
         </div>
@@ -188,10 +188,10 @@ document.addEventListener("DOMContentLoaded", () => {
               <p><strong>Texto:</strong> HOLAMUNDO</p>
               <p><strong>Clave:</strong> 4 (tamaño de grupo)</p>
               <div class="font-mono bg-gray-100 p-2 my-2">
-                HOLA | MUND | O<br>
-                ALOH | DNUM | O
+                HOLA | MUND | OXXX<br>
+                ALOH | DNUM | XXXO
               </div>
-              <p><strong>Resultado:</strong> ALOHDNUMO</p>
+              <p><strong>Resultado:</strong> ALOHDNUMXXXO</p>
             </div>
           </div>
         </div>
@@ -231,12 +231,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="bg-blue-50 p-3 rounded-md">
               <p><strong>Texto:</strong> HOLAMUNDO</p>
               <p><strong>Clave:</strong> 3 (raíles)</p>
-              <div class="font-mono bg-gray-100 p-2 my-2">
-                H &nbsp; &nbsp; A &nbsp; &nbsp; U &nbsp; &nbsp;<br>
-                &nbsp; O &nbsp; L &nbsp; M &nbsp; N &nbsp;<br>
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; D &nbsp; &nbsp; O
-              </div>
-              <p><strong>Resultado:</strong> HAUOLMNDO</p>
+              <pre class="font-mono bg-gray-100 p-2 my-2">
+               H   M   O
+                O A U D 
+                 L   N  
+              </pre>
+              <p><strong>Resultado:</strong> HMOOAUDLN</p>
             </div>
           </div>
         </div>
