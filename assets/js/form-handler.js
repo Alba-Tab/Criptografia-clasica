@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     kasiski: {
       placeholder: "Texto cifrado (30–50 caracteres) para análisis Kasiski",
-      ejemplo: "Texto: ZJXQYZKLMNOPQRSTUVWX — sin clave",
+      ejemplo: "Texto: KDNVDKDNVZKDNDKDNV — sin clave",
       descripcion: `<div class="grid md:grid-cols-1 gap-6">
         <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <h4 class="text-lg font-semibold text-blue-600 mb-3">Análisis Kasiski</h4>
